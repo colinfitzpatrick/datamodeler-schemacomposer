@@ -1,0 +1,12 @@
+Bundle-ManifestVersion: 2
+Bundle-Version: 1.0.0
+Bundle-SymbolicName: com.xsynergy.schemacomposer
+Bundle-ClassPath: .
+Require-Bundle: oracle.ide,
+ oracle.javatools,
+ oracle.icons,
+ oracle.ide.gallery,
+ oracle.datamodeler,
+ oracle.idert,
+ oracle.javatools-nodeps,
+ oracle.uic

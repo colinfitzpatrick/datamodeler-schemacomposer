@@ -1,0 +1,47 @@
+<extension id="com.xsynergy.schemacomposer" version="0.5" esdk-version="2.0"
+           rsbundle-class="com.xsynergy.schemacomposer.Res" xmlns="http://jcp.org/jsr/198/extension-manifest">
+  <name>${EXTENSION_NAME}</name>
+  <owner>${EXTENSION_OWNER}</owner>
+  <trigger-hooks xmlns="http://xmlns.oracle.com/ide/extension">
+    <triggers>
+      <actions xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+        <action id="com.xsynergy.schemacomposer.SchemaWindowController">
+          <properties>
+            <property name="Name">Schema Composer</property>
+            <property name="SmallIcon">${OracleIcons.FILE}</property>
+            <property name="LongDescription">Hierarchical Schema Composer</property>
+          </properties>
+        </action>
+      </actions>
+      <controllers>
+        <controller class="com.xsynergy.schemacomposer.SchemaWindowController">
+          <update-rules>
+            <update-rule rule="always-enabled">
+              <action id="com.xsynergy.schemacomposer.SchemaWindowController"/>
+            </update-rule>
+          </update-rules>
+        </controller>
+      </controllers>
+      <settings-ui-hook>
+        <page id="com.xsynergy.schemacomposer.Preferences" parent-idref="/preferences" search-tags="XSD">
+          <label>Schema Composer</label>
+          <traversable-class>com.xsynergy.schemacomposer.SchemaComposerPanel</traversable-class>
+        </page>
+      </settings-ui-hook>
+      <menu-hook xmlns="http://jcp.org/jsr/198/extension-manifest">
+        <menus>
+          <menubar id="javax.ide.view.MAIN_WINDOW_MENUBAR_ID">
+            <menu id="javax.ide.VIEW_MENU_ID">
+              <section id="menu-addin-section-id" weight="2.0">
+                <item action-ref="com.xsynergy.schemacomposer.SchemaWindowController" weight="2.0"/>
+              </section>
+            </menu>
+          </menubar>
+        </menus>
+      </menu-hook>
+      <dockable-factory-hook>
+        <factory class="com.xsynergy.schemacomposer.SchemaWindowFactory" id="SCHEMAWINDOW_TYPE"/>
+      </dockable-factory-hook>
+    </triggers>
+  </trigger-hooks>
+</extension>

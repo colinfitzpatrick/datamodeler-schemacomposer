@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="antlib:org.apache.tools.ant" default="init" name="JL EBO">
+ 
+  <taskdef resource="proguard/ant/task.properties"
+         classpath="proguard.jar" />
+ 
+  <property name="src" location="src"/>
+  <property name="build" location="classes"/>
+  <property name="dist" location="dist"/>
+  <property name="updatecenter" location="updatecenter"/>
+  
+  <!-- Location of Data Modeler to Source JAR files from -->
+  <property name="datamodeler" location="/Applications/Dev/OracleDataModeler.app/Contents/Resources/datamodeler"/>
+
+  <!-- Get the version number from the extension.xml file --> 
+  <xmlproperty file="${src}/META-INF/extension.xml" /> 
+  <property name="version" value="${extension(version)}" />
+  
+  <buildnumber/>
+  
+  <!-- Set the jar file name -->
+  <property name="JAR_FILE" value="${dist}/com.xsynergy.schemacomposer.${version}.${build.number}.jar" />
+  <property name="JAR_FILE_PROD" value="${dist}/com.xsynergy.schemacomposer.prod.${version}.${build.number}.jar" />
+
+  <!-- Set the release file name -->
+  <property name="RELEASE_FILE" value="${dist}/SchemaComposer.${version}.${build.number}.zip" />
+
+
+  <!-- Setup the class path -->
+  <!-- The classpath must also be updated in extension-obfuscated target -->
+  <path id="classpath">
+    <pathelement location="${datamodeler}/ide/extensions/oracle.ide.jar"/>
+    <pathelement location="${datamodeler}/ide/lib/javatools.jar"/>
+    <pathelement location="${datamodeler}/modules/oracle.javatools/javatools-nodeps.jar"/>
+    <pathelement location="${datamodeler}/datamodeler/extensions/oracle.datamodeler.jar"/>
+    <pathelement location="${datamodeler}/ide/extensions/oracle.ide.db.jar"/>
+    <pathelement location="${datamodeler}/ide/lib/idert.jar"/>
+    <pathelement location="${datamodeler}/ide/lib/uic.jar"/>
+    <pathelement location="${datamodeler}/jlib/ewt3.jar"/>
+    <pathelement location="${datamodeler}/modules/oracle.bali.jewt/olaf2.jar"/>
+  </path>
+  
+  <target name="compile" description="compile the source">
+    <mkdir dir="${build}"/>
+    <javac srcdir="${src}" destdir="${build}" classpathref="classpath" includeAntRuntime="yes"/>
+  </target>
+  
+  <target name="extension" depends="compile" description="Builds the Extension">
+ 
+    <mkdir dir="${dist}"/>
+ 
+    <!-- jar task modifies the bundle's manifest file -->
+    <zip destfile="${JAR_FILE}">
+     
+      <fileset dir="${src}">
+        <exclude name="**/*.java"/>
+      </fileset>
+ 
+      <fileset dir="${build}"/>
+ 
+    </zip>
+
+  </target>
+
+  <target name="extension-obfuscated" depends="extension" description="Builds the Extension with Obfuscated Code">
+    <proguard>
+        -libraryjars ${java.home}/lib/rt.jar
+        -libraryjars ${datamodeler}/ide/extensions/oracle.ide.jar
+        -libraryjars ${datamodeler}/ide/lib/javatools.jar
+        -libraryjars ${datamodeler}/modules/oracle.javatools/javatools-nodeps.jar
+        -libraryjars ${datamodeler}/datamodeler/extensions/oracle.datamodeler.jar
+        -libraryjars ${datamodeler}/ide/extensions/oracle.ide.db.jar
+        -libraryjars ${datamodeler}/ide/lib/idert.jar
+        -libraryjars ${datamodeler}/ide/lib/uic.jar
+        -libraryjars ${datamodeler}/jlib/ewt3.jar
+        -libraryjars ${datamodeler}/modules/oracle.bali.jewt/olaf2.jar
+        -injars      ${JAR_FILE}
+        -outjars     ${JAR_FILE_PROD}
+        
+        -keep public class com.xsynergy.schemacomposer.SchemaComposerPanel
+        -keep public class com.xsynergy.schemacomposer.SchemaWindowController
+        -keep public class com.xsynergy.schemacomposer.SchemaWindowFactory
+        
+    </proguard>  
+    
+    <delete file="${JAR_FILE}"/>
+    
+  </target>
+  
+  <target name="zip" depends="clean,extension-obfuscated" description="Builds the Extension for Release">
+  
+    <mkdir dir="${updatecenter}"/>
+    
+    <copy file="bundle.xml" todir="${dist}/META-INF"/>
+    <copy file="updatecenter.xml" todir="${updatecenter}"/>
+    
+    <!-- Ensure the Bundle Version, Matches the extension.xml file -->
+    <replace file="${dist}/META-INF/bundle.xml" token="@VERSION@" value="${version}" />
+
+    <replace file="${updatecenter}/updatecenter.xml" token="@SCHEMA_COMPOSER_VERSION@" value="${version}" />
+    <replace file="${updatecenter}/updatecenter.xml" token="@SCHEMA_COMPOSER_BUILDNUMBER@" value="${build.number}" />
+    
+    <zip destfile="${RELEASE_FILE}" basedir="${dist}"/>
+  </target>
+  
+  <target name="clean" description="clean up">
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+    <delete dir="${updatecenter}"/>
+  </target>
+  
+</project>
