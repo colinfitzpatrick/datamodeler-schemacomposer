@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project xmlns="antlib:org.apache.tools.ant" default="init" name="JL EBO">
- 
-  <taskdef resource="proguard/ant/task.properties"
-         classpath="proguard.jar" />
- 
-  <property name="src" location="src"/>
-  <property name="build" location="classes"/>
-  <property name="dist" location="dist"/>
-  <property name="updatecenter" location="updatecenter"/>
-  
+<project xmlns="antlib:org.apache.tools.ant" default="zip" name="Datamodeler Schema Composer">
+
   <!-- Location of Data Modeler to Source JAR files from -->
-  <property name="datamodeler" location="/Applications/Dev/OracleDataModeler.app/Contents/Resources/datamodeler"/>
+  <property name="datamodeler" location="/Users/colin/dev/OracleDataModeler.app/Contents/Resources/datamodeler"/>
+
+  <!-- Code Locations -->
+  <property name="dir" location="Extension"/>
+  <property name="resources" location="resources"/>
+
+  <property name="src" location="${dir}/src"/>
+  <property name="build" location="${dir}/classes"/>
+  <property name="dist" location="dist"/>
+ 
+  <!-- Code obfuscation Task -->
+  <taskdef resource="proguard/ant/task.properties"
+         classpath="${resources}/proguard.jar" />
 
   <!-- Get the version number from the extension.xml file --> 
   <xmlproperty file="${src}/META-INF/extension.xml" /> 
   <property name="version" value="${extension(version)}" />
-  
-  <buildnumber/>
-  
+ 
+  <!-- Get Git revision -->
+  <exec executable="git" outputproperty="git.revision">
+    <arg value="log" />
+    <arg value="-1" />
+    <arg value="--pretty=format:%h" />
+  </exec> 
+
+  <!-- Set Version -->
+  <property name="RELEASE_VERSION" value="${version}.${git.revision}" />
+ 
   <!-- Set the jar file name -->
-  <property name="JAR_FILE" value="${dist}/com.xsynergy.schemacomposer.${version}.${build.number}.jar" />
-  <property name="JAR_FILE_PROD" value="${dist}/com.xsynergy.schemacomposer.prod.${version}.${build.number}.jar" />
+  <property name="JAR_FILE" value="${dist}/com.xsynergy.schemacomposer.${RELEASE_VERSION}.jar" />
+  <property name="JAR_FILE_PROD" value="${dist}/com.xsynergy.schemacomposer.prod.${RELEASE_VERSION}.jar" />
 
   <!-- Set the release file name -->
-  <property name="RELEASE_FILE" value="${dist}/SchemaComposer.${version}.${build.number}.zip" />
+  <property name="RELEASE_FILE" value="${dist}/SchemaComposer.${RELEASE_VERSION}.zip" />
 
 
   <!-- Setup the class path -->
@@ -89,18 +101,25 @@
   
   <target name="zip" depends="clean,extension-obfuscated" description="Builds the Extension for Release">
   
-    <mkdir dir="${updatecenter}"/>
-    
-    <copy file="bundle.xml" todir="${dist}/META-INF"/>
-    <copy file="updatecenter.xml" todir="${updatecenter}"/>
+    <copy file="${resources}/bundle-template.xml" tofile="${dist}/META-INF/bundle.xml"/>
     
     <!-- Ensure the Bundle Version, Matches the extension.xml file -->
     <replace file="${dist}/META-INF/bundle.xml" token="@VERSION@" value="${version}" />
-
-    <replace file="${updatecenter}/updatecenter.xml" token="@SCHEMA_COMPOSER_VERSION@" value="${version}" />
-    <replace file="${updatecenter}/updatecenter.xml" token="@SCHEMA_COMPOSER_BUILDNUMBER@" value="${build.number}" />
     
+    <!-- Crete the zip file -->
     <zip destfile="${RELEASE_FILE}" basedir="${dist}"/>
+
+    <!-- Prepare the update center file -->
+    <copy file="${resources}/updatecenter-template.xml" tofile="${dist}/updatecenter.xml"/>
+    <replace file="${dist}/updatecenter.xml" token="@SCHEMA_COMPOSER_VERSION@" value="${version}" />
+    <replace file="${dist}/updatecenter.xml" token="@SCHEMA_COMPOSER_BUILDNUMBER@" value="${RELEASE_VERSION}" />
+
+    <!-- Delete files not required for release -->
+    <delete>
+    	<fileset dir="${dist}" includes="*.jar"/>
+    </delete>
+    <delete dir="${dist}/META-INF"/>
+
   </target>
   
   <target name="clean" description="clean up">
