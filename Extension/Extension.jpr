@@ -70,9 +70,9 @@
    </list>
    <value n="defaultPackage" v="com.xsynergy.schemacomposer"/>
    <hash n="extensiondtProperties">
-      <value n="extensiondt.deploymentdir" v="ide/extensions/"/>
+      <value n="extensiondt.deploymentdir" v="datamodeler/extensions/"/>
       <url n="extensiondt.manifest" path="src/META-INF/extension.xml"/>
-      <value n="extensiondt.platform" v="da943a32cdc91040beeb25c801503d16"/>
+      <value n="extensiondt.platform" v="8c64a8096cd56f6e6c259c4d30091223"/>
    </hash>
    <hash n="oracle.ide.model.ResourcePaths">
       <hash n="resourcesContentSet">
@@ -100,12 +100,8 @@
    </hash>
    <hash n="oracle.ide.model.TechnologyScopeConfiguration">
       <list n="technologyScope">
-         <string v="ADFbc"/>
          <string v="ExtensionDT"/>
-         <string v="HTML"/>
-         <string v="JAVASCRIPT"/>
          <string v="Java"/>
-         <string v="Maven"/>
          <string v="XML"/>
          <string v="XML_SCHEMA"/>
          <string v="XSL"/>
@@ -169,7 +165,7 @@
             <hash n="importDefinition">
                <hash n="rules"/>
             </hash>
-            <url n="jarURL" protocol="file" path="/Applications/Dev/OracleDataModeler.app/Contents/Resources/datamodeler/datamodeler/extensions/com.xsynergy.schemacomposer.jar"/>
+            <url n="jarURL" path="../../../../dev/OracleDataModeler.app/Contents/Resources/datamodeler/datamodeler/extensions/com.xsynergy.schemacomposer.jar"/>
             <value n="profileClass" v="oracle.jdevimpl.extensiondt.deploy.ExtensionProfile"/>
             <value n="profileName" v="edtExtensionProfile"/>
             <hash n="requireBundles">
@@ -196,16 +192,40 @@
    <hash n="oracle.jdeveloper.runner.RunConfigurations">
       <hash n="runConfigurationDefinitions">
          <hash n="Default">
+            <value n="allowInput" v="true"/>
             <value n="custom" v="false"/>
+            <list n="EnvironmentVariables"/>
             <value n="name" v="Default"/>
+            <hash n="oracle.jdevimpl.runner.debug.DebugConfiguration">
+               <value n="remoteParameter:jpda:port" v="52945"/>
+            </hash>
             <hash n="oracle.jdevimpl.runner.xslt.XSLTConfiguration">
                <url n="inputFileURL" path="../../../Desktop/untitled1.xml"/>
                <url n="outputFileURL" path="../../../Desktop/out.xsd"/>
             </hash>
             <url n="runDirectoryURL" path="."/>
+            <value n="saveAllBeforeRun" v="true"/>
+            <value n="targetURL"/>
+            <value n="useProxy" v="false"/>
+         </hash>
+         <hash n="Remote Debug">
+            <value n="custom" v="false"/>
+            <value n="name" v="Remote Debug"/>
+            <hash n="oracle.jdevimpl.runner.debug.DebugConfiguration">
+               <value n="remoteParameter:jpda:hostname" v="localhost"/>
+               <value n="remoteParameter:jpda:port" v="52945"/>
+               <value n="remoteParameter:jpdalisten:localAddress" v="localhost"/>
+               <value n="remoteParameter:jpdalisten:port" v="52945"/>
+               <value n="remoteProtocol" v="jpda"/>
+            </hash>
+            <value n="remoteDebuggingProfiling" v="true"/>
             <value n="targetURL"/>
          </hash>
       </hash>
+      <list n="runConfigurationList">
+         <string v="Default"/>
+         <string v="Remote Debug"/>
+      </list>
    </hash>
    <hash n="oracle.jdevimpl.config.JProjectLibraries">
       <list n="exportedReferences">

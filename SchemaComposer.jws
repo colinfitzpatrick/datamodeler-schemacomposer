@@ -28,10 +28,10 @@
       <hash><url n="URL" path="Extension/Extension.jpr"/></hash>
    </list>
    <hash n="oracle.jdeveloper.extensiondt.PlatformDefinitions">
-      <hash n="da943a32cdc91040beeb25c801503d16">
-         <url n="icon" protocol="jar" path="file:/Applications/Dev/OracleDataModeler.app/Contents/Resources/datamodeler/datamodeler/extensions/oracle.datamodeler.jar!/oracle/javatools/images/product.png"/>
-         <url n="installRoot" protocol="file" path="/Applications/Dev/OracleDataModeler.app/Contents/Resources/datamodeler/"/>
-         <value n="name" v="Oracle SQL Developer Data Modeler 4.1.2.1.899"/>
+      <hash n="8c64a8096cd56f6e6c259c4d30091223">
+         <url n="icon" path="../../../dev/OracleDataModeler.app/Contents/Resources/datamodeler/datamodeler/extensions/oracle.datamodeler.jar" jar-entry="oracle/javatools/images/product.png"/>
+         <url n="installRoot" path="../../../dev/OracleDataModeler.app/Contents/Resources/datamodeler/"/>
+         <value n="name" v="Oracle SQL Developer Data Modeler 4.1.5.907"/>
          <value n="productBootFile" v="datamodeler/bin/datamodeler.boot"/>
       </hash>
    </hash>

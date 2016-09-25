@@ -3,20 +3,20 @@
          xmlns:u="http://xmlns.oracle.com/jdeveloper/update">
   <u:update id="com.xsynergy.schemacomposer">
     <u:name>Hierarchical Schema Composer</u:name>
-    <u:version>@SCHEMA_COMPOSER_VERSION@</u:version>
+    <u:version>0.5</u:version>
     <u:author>Colin Fitzpatrick</u:author>
     <u:author-url>https://github.com/colinfitzpatrick/datamodeler-schemacomposer-release/wiki</u:author-url>
     <u:description>Oracle™ SQL*Developer Data Modeler extension to allow users to create XSD's and JSON Schema from Logical Data Models.<br/>
 The intent is to allow Enterprise Data Models to be converted to XSDs for Enterprise Web Services.<br/>
 Oracle is a registered trademark of Oracle Corporation and/or its affiliates. Other names may be trademarks of their respective owners. This site is not affiliated with Oracle™ or any of their family of sites or Software.<br/>
-[version @SCHEMA_COMPOSER_BUILDNUMBER@]</u:description>
+[version 0.5.xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun]</u:description>
     <u:post-startup-hook></u:post-startup-hook>
     <u:requirements>
       <u:requires-extension id="oracle.sqldeveloper" minVersion="12.1.2.0.40" maxVersion="12.9.0.0.40"/>
       <u:requires-agreement 
           url="https://raw.githubusercontent.com/colinfitzpatrick/datamodeler-schemacomposer-release/master/license.md"/>
     </u:requirements>
-    <u:bundle-url>https://github.com/colinfitzpatrick/datamodeler-schemacomposer-release/releases/download/@SCHEMA_COMPOSER_BUILDNUMBER@/SchemaComposer.@SCHEMA_COMPOSER_BUILDNUMBER@.zip</u:bundle-url>
+    <u:bundle-url>https://github.com/colinfitzpatrick/datamodeler-schemacomposer-release/releases/download/0.5.xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun/SchemaComposer.0.5.xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun.zip</u:bundle-url>
     <u:category>xsynergy</u:category>
   </u:update>
 </updates>

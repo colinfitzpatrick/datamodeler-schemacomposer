@@ -71,6 +71,6 @@ public final class SchemaWindowController
   @Override
   public Object getInvalidStateMessage(IdeAction ideAction, Context context)
   {
-    return "Schema Composer Requires a Subview to be selected.";
+    return "0:00-Schema Composer Requires a Subview to be selected."; 
   }
 }
