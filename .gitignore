@@ -5,6 +5,9 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# Don't include distribtion folder
+dist/
+
 # Package Files #
 *.jar
 *.war

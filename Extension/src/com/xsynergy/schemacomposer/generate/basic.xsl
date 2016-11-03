@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xsl:stylesheet version="2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:x="my:x" exclude-result-prefixes="x">
+                
   <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
   <xsl:param name="ignore-resolvers" select="'true'"/>
-  <xsl:function name="x:getDatatype">
-    <xsl:param name="datatype"/>
-    
-    <xsl:choose>
-      <xsl:when test="$datatype = 'INTEGER'">xs:integer</xsl:when>
-      <xsl:when test="$datatype = 'NUMBER'">xs:integer</xsl:when>
-      <xsl:when test="$datatype = 'TIMESTAMP'">xs:dateTime</xsl:when>
-      <xsl:when test="$datatype = 'VARCHAR2'">xs:string</xsl:when>
-      <xsl:when test="$datatype = 'CHAR'">xs:integer</xsl:when>
-      <xsl:when test="$datatype = 'DATE'">xs:date</xsl:when>
-      <xsl:when test="$datatype = 'BLOB'">xs:hexBinary</xsl:when>
-      <xsl:when test="$datatype = 'CLOB'">xs:string</xsl:when>
-      <xsl:otherwise>xs:string</xsl:otherwise>
-    </xsl:choose>
-    
-  </xsl:function>
-  
   
   <!-- Main - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   <xsl:template match="/">    
@@ -122,10 +106,8 @@
       <xsl:attribute name="name">
           <xsl:value-of select="translate(@name,' ','')"/>
       </xsl:attribute>
-      
-      <xsl:attribute name="type">
-        <xsl:value-of select="x:getDatatype(@datatype)"/>
-      </xsl:attribute>
+     
+	  <xsl:apply-templates select="@datatype"/>
       
       <xsl:attribute name="minOccurs">
         <xsl:choose>
@@ -146,6 +128,27 @@
   </xsl:template>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+  
+  <xsl:template match="@datatype">
+  
+  	<xsl:variable name="datatype"><xsl:value-of select="datatype"/></xsl:variable>
+  
+  	<xsl:attribute name="type">
+	    <xsl:choose>
+	      <xsl:when test="$datatype = 'INTEGER'">xs:integer</xsl:when>
+	      <xsl:when test="$datatype = 'NUMBER'">xs:integer</xsl:when>
+	      <xsl:when test="$datatype = 'TIMESTAMP'">xs:dateTime</xsl:when>
+	      <xsl:when test="$datatype = 'VARCHAR2'">xs:string</xsl:when>
+	      <xsl:when test="$datatype = 'CHAR'">xs:integer</xsl:when>
+	      <xsl:when test="$datatype = 'DATE'">xs:date</xsl:when>
+	      <xsl:when test="$datatype = 'BLOB'">xs:hexBinary</xsl:when>
+	      <xsl:when test="$datatype = 'CLOB'">xs:string</xsl:when>
+	      <xsl:otherwise>xs:string</xsl:otherwise>
+	    </xsl:choose>
+    </xsl:attribute>
+  
+  </xsl:template>
+  
   
   <xsl:template match="supertype" mode="parent_attributes">
 
@@ -171,6 +174,9 @@
         <xsl:apply-templates select="supertype"/>
       </xsl:when>
       
+      
+      <!--  TODO, when a supertype has no subchoices ... add it's attributes -->
+      
       <xsl:otherwise>
         <xs:choice>
         
@@ -184,6 +190,7 @@
           <xsl:attribute name="maxOccurs">
             <xsl:choose>
               <xsl:when test="@cardinality ='*'">unbounded</xsl:when>
+              <xsl:when test="@cardinality =''">unbounded</xsl:when>
               <xsl:otherwise>
                 <xsl:value-of select="@cardinality"/>
               </xsl:otherwise>

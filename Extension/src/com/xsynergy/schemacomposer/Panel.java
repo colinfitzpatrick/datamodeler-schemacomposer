@@ -43,6 +43,11 @@ import org.w3c.dom.NodeList;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.GroupLayout;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 
 /**
@@ -213,32 +218,38 @@ public class Panel
         buttonActionPerformed(evt);
       }
     });
+    
+    outputType = new JComboBox();
+    outputType.setModel(new DefaultComboBoxModel(new String[] {"XSD", "JSON Schema"}));
 
     javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-    jPanel1.setLayout(jPanel1Layout);
     jPanel1Layout.setHorizontalGroup(
-      jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(jPanel1Layout.createSequentialGroup()
-        .addComponent(jLabel2)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addComponent(comboRootEntity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
-        .addComponent(ignoreFK)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addComponent(ignoreResolvers)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(button)
-        .addContainerGap())
+    	jPanel1Layout.createParallelGroup(Alignment.LEADING)
+    		.addGroup(jPanel1Layout.createSequentialGroup()
+    			.addComponent(jLabel2)
+    			.addPreferredGap(ComponentPlacement.UNRELATED)
+    			.addComponent(comboRootEntity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+    			.addPreferredGap(ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
+    			.addComponent(ignoreFK)
+    			.addPreferredGap(ComponentPlacement.RELATED)
+    			.addComponent(ignoreResolvers)
+    			.addGap(11)
+    			.addComponent(outputType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+    			.addPreferredGap(ComponentPlacement.UNRELATED)
+    			.addComponent(button)
+    			.addContainerGap())
     );
     jPanel1Layout.setVerticalGroup(
-      jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-        .addComponent(jLabel2)
-        .addComponent(comboRootEntity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addComponent(ignoreFK)
-        .addComponent(ignoreResolvers)
-        .addComponent(button))
+    	jPanel1Layout.createParallelGroup(Alignment.LEADING)
+    		.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+    			.addComponent(jLabel2)
+    			.addComponent(comboRootEntity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+    			.addComponent(button)
+    			.addComponent(ignoreFK)
+    			.addComponent(ignoreResolvers)
+    			.addComponent(outputType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
     );
+    jPanel1.setLayout(jPanel1Layout);
 
     tree.addTreeCellCheckedListener(new oracle.ide.controls.tree.TreeCellCheckedListener()
     {
@@ -369,13 +380,22 @@ public class Panel
 
   private void buttonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonActionPerformed
   {//GEN-HEADEREND:event_buttonActionPerformed
-
-    ApplicationView appView = ApplicationView.getInstance();
+    
+     URL url =  this.getClass().getResource("/com/xsynergy/schemacomposer/generate/basic.xsl"); 
+     String extension = ".xsd";
+      
+    if(getOutputType().getSelectedItem().toString() == "JSON Schema")
+    {
+	url =  this.getClass().getResource("/com/xsynergy/schemacomposer/generate/basic.xsl"); 
+	extension = ".json";
+    }
+      
+    //ApplicationView appView = ApplicationView.getInstance();
   
     ModelPersistance save = ModelPersistance.getInstance();
     Generate generate = new Generate(tree);
-    generate.createModel(this.subviewName, this.ignoreResolvers.isSelected());
-    
+    generate.createModel(this.subviewName, url, extension, this.ignoreResolvers.isSelected());
+        
     save.save(model, generate);
     
   }//GEN-LAST:event_buttonActionPerformed
@@ -676,6 +696,8 @@ public class Panel
   private javax.swing.JScrollPane jScrollPane1;
   private javax.swing.JSeparator jSeparator1;
   private oracle.ide.controls.tree.CustomJTree tree;
-  // End of variables declaration//GEN-END:variables
-
+  private JComboBox outputType;
+	public JComboBox getOutputType() {
+		return outputType;
+	}
 }

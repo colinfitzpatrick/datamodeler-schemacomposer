@@ -104,7 +104,7 @@ public final class Util {
       }
   }
 
-  private static LogLevel curentLevel = LogLevel.WARN;
+  private static LogLevel curentLevel = LogLevel.DEBUG;
   
   public static final void setLogLevel(LogLevel level)
   {

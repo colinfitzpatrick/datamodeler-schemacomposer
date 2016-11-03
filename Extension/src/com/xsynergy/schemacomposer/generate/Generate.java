@@ -1,6 +1,7 @@
 package com.xsynergy.schemacomposer.generate;
 
 import com.xsynergy.datamodeler.Util;
+import com.xsynergy.datamodeler.Util.LogLevel;
 import com.xsynergy.schemacomposer.model.EntityNode;
 import com.xsynergy.schemacomposer.model.SchemaAttribute;
 
@@ -68,7 +69,7 @@ public class Generate
     this.tree = tree;
   }
   
-  public void createModel(String subViewName, boolean ignoreResolvers)
+  public void createModel(String subViewName, URL xsd, String extension, boolean ignoreResolvers)
   {
     this.subViewName = subViewName;
     
@@ -105,6 +106,8 @@ public class Generate
     
     createModel(rootNode, rootElement);
 
+    Util.log(LogLevel.DEBUG, getModelAsXMLString());
+    
     try
     {
 
@@ -133,15 +136,15 @@ public class Generate
       
       DOMSource xmlsource = new DOMSource(doc);
       
-      URL url = this.getClass().getResource("/com/xsynergy/schemacomposer/generate/basic.xsl");
+//      URL url = this.getClass().getResource("/com/xsynergy/schemacomposer/generate/basic.xsl");
+//
+//      Util.log(Util.LogLevel.DEBUG, Util.getText(url));
 
-      Util.log(Util.LogLevel.DEBUG, Util.getText(url));
-
-      Transformer xsltransformer = transformerFactory.newTransformer(new StreamSource(url.openStream()) );
+      Transformer xsltransformer = transformerFactory.newTransformer(new StreamSource(xsd.openStream()) );
        
       xsltransformer.setParameter(Generate.kPARAM_IGNORE_RESOLVERS, ignoreResolvers==true?"true":"false");
       
-      String filename = outputFile + Util.FS + subViewName + kXSDEXTENSION;
+      String filename = outputFile + Util.FS + subViewName + extension;
       
       StreamResult resultxslt = new StreamResult(new File(filename));
       xsltransformer.transform(xmlsource, resultxslt);     
