@@ -11,6 +11,7 @@
   <property name="src" location="${dir}/src"/>
   <property name="build" location="${dir}/classes"/>
   <property name="dist" location="dist"/>
+  <property name="website" location="website"/>
  
   <!-- Code obfuscation Task -->
   <taskdef resource="proguard/ant/task.properties"
@@ -35,7 +36,7 @@
   <property name="JAR_FILE_PROD" value="${dist}/com.xsynergy.schemacomposer.prod.${RELEASE_VERSION}.jar" />
 
   <!-- Set the release file name -->
-  <property name="RELEASE_FILE" value="${dist}/SchemaComposer.${RELEASE_VERSION}.zip" />
+  <property name="RELEASE_FILE" value="SchemaComposer.${RELEASE_VERSION}.zip" />
 
 
   <!-- Setup the class path -->
@@ -107,7 +108,7 @@
     <replace file="${dist}/META-INF/bundle.xml" token="@VERSION@" value="${version}" />
     
     <!-- Crete the zip file -->
-    <zip destfile="${RELEASE_FILE}" basedir="${dist}"/>
+    <zip destfile="${dist}/${RELEASE_FILE}" basedir="${dist}"/>
 
     <!-- Prepare the update center file -->
     <copy file="${resources}/updatecenter-template.xml" tofile="${dist}/updatecenter.xml"/>
@@ -119,6 +120,22 @@
     	<fileset dir="${dist}" includes="*.jar"/>
     </delete>
     <delete dir="${dist}/META-INF"/>
+
+  </target>
+
+  <target name="publish" depends="zip" description="Create and build the website for publication">
+
+    <!-- Copy the update center file -->
+    <copy file="${dist}/updatecenter.xml" tofile="${website}/updatecenter.xml"/>
+
+    <!-- Copy the build file -->
+    <copy file="${dist}/${RELEASE_FILE}" tofile="${website}/downloads/${RELEASE_FILE}" />
+
+	<!--  Build the website -->
+	<exec executable="jekyll">
+      <arg value="build"/>
+      <arg value="--source website/"/>
+    </exec>-->
 
   </target>
   

@@ -33,3 +33,6 @@ gems:
 exclude:
   - Gemfile
   - Gemfile.lock
+include:
+  - updatecenter.xml
+  - download/

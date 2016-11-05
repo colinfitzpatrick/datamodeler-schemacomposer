@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity name="CarrierLabel">
+	<attribute name="CarrierLabelID" datatype="INTEGER" size="0"
+		comment="A unique system assigned identifier for the Carrier Label"
+		mandatory="true" FK="false" />
+	<attribute name="CarrierLabel" datatype="BLOB" size="4"
+		comment="The Carrier supplied label which is affixed to the Parcel"
+		mandatory="false" FK="false" />
+	<attribute name="TrackingID" datatype="INTEGER" size="0"
+		comment="A tracking number provided by the service provider who actually delivers the shipment."
+		mandatory="false" FK="false" />
+	<attribute name="TrackingURL" datatype="CLOB" size="4"
+		comment="A URL to the service provider's website, which allows interested parties to track the shipment."
+		mandatory="false" FK="false" />
+	<attribute name="CheckReferenceNumber" datatype="VARCHAR2"
+		size="max"
+		comment="A reference code used by the carrier to verify the customer.  This is printed on the label.&#xA;&#xA;This is usually the last 4 digits of the customers credit card."
+		mandatory="false" FK="false" />
+	<entity name="VisualFileFormatType" mandatory="true"
+		cardinality="*" parentkey="FileFormatTypeCode">
+		<attribute name="DPI" datatype="INTEGER" size="0"
+			comment="The Dots Per Inch of the Image or PDF attached." mandatory="false"
+			FK="false" />
+		<entity name="FileFormatType" mandatory="false"
+			cardinality="" parentkey="">
+			<attribute name="FileFormatTypeCode" datatype="VARCHAR2"
+				size="20"
+				comment="Identifies a digitial file format.&#xA;&#xA;Exmples include:&#xA;mpeg&#xA;jpeg&#xA;QuickTime&#xA;flashvideo"
+				mandatory="true" FK="false" />
+			<attribute name="FileFormatName" datatype="CLOB" size="4"
+				comment="Business name for the FileFormatType" mandatory="false" FK="false" />
+			<attribute name="FileFormatExtension" datatype="VARCHAR2"
+				size="20"
+				comment="File extension typically used to designate a file as this type of file format."
+				mandatory="false" FK="false" />
+		</entity>
+	</entity>
+	<entity name="Carrier" mandatory="true" cardinality="*"
+		parentkey="CarrierID">
+		<attribute name="VendorID" datatype="INTEGER" size="0"
+			comment="A unique system assigned identifier for the Vendor."
+			mandatory="true" FK="false" />
+		<entity name="CarrierShipmentType" mandatory="true"
+			cardinality="*" parentkey="">
+			<attribute name="CarrierShipmentTypeID" datatype="INTEGER"
+				size="0"
+				comment="A unique, retailer supplied identifier for the carrier assigned to the Retail Transaction Shipment."
+				mandatory="true" FK="false" />
+			<attribute name="CarrierShipmentTypeName" datatype="CHAR"
+				size="18" comment="A unique, carrier supplied identifier for the shipment type."
+				mandatory="false" FK="false" />
+		</entity>
+	</entity>
+	<entity name="ParcelForDelivery" mandatory="true" cardinality="1"
+		parentkey="ParcelID">
+		<attribute name="ParcelID" datatype="CHAR" size="18"
+			comment="A unique system assigned identifier for the Parcel."
+			mandatory="true" FK="false" />
+		<attribute name="ParcelBarCode" datatype="CHAR" size="18"
+			comment="This holds the bar code scanned and associated with a parcel when the ordered item/items are placed in a parcel for delivery."
+			mandatory="false" FK="false" />
+		<attribute name="ParcelStatus" datatype="CHAR" size="18"
+			comment="This records the status of a parcel." mandatory="false" FK="false" />
+		<attribute name="ValueForInsurance" datatype="NUMBER" size="9"
+			comment="The declared insurable value of the item(s) in the parcel. This value is used as part of the business rules for carrier selection."
+			mandatory="false" FK="false" />
+		<attribute name="DropSequenceNumber" datatype="CHAR" size="18"
+			comment="This is a sequencial (alpha-numeric) number assigned to each of the parcel drops on a given delivery route."
+			mandatory="false" FK="false" />
+		<attribute name="DeliveryDate" datatype="DATE" size="8"
+			comment="The actual delivery date" mandatory="false" FK="false" />
+		<attribute name="ProofOfDeliveryFlag" datatype="CHAR" size="1"
+			comment="Set if proof of delivery is required for the parcel."
+			mandatory="false" FK="false" />
+		<entity name="Dimensions" mandatory="true" cardinality="*"
+			parentkey="DimensionID">
+			<attribute name="DimensionID" datatype="INTEGER" size="0"
+				comment="A unique identifier for a given set of dimensions on an object."
+				mandatory="true" FK="false" />
+			<attribute name="Height" datatype="NUMBER" size="5"
+				comment="Defines the height of a object (i.e. parcel/box/pack/etc.) in linear-measure-unit-codes."
+				mandatory="true" FK="false" />
+			<attribute name="Width" datatype="NUMBER" size="5"
+				comment="Defines the width of a object (i.e. parcel/box/pack/etc.) in linear-measure-unit-codes."
+				mandatory="false" FK="false" />
+			<attribute name="Depth" datatype="NUMBER" size="5"
+				comment="Defines the depth of a object (i.e. parcel/box/pack/etc.) in linear-measure-unit-codes."
+				mandatory="false" FK="false" />
+			<attribute name="Length" datatype="NUMBER" size="5"
+				comment="Defines the length of a object (i.e. parcel/box/pack/etc.) in linear-measure-unit-codes."
+				mandatory="false" FK="false" />
+			<attribute name="Volume" datatype="NUMBER" size="5"
+				comment="Defines the cubic volume of a object (i.e. parcel/box/pack/etc.) in 'VolumeUnitOfMeasure' codes."
+				mandatory="false" FK="false" />
+			<attribute name="Weight" datatype="NUMBER" size="5"
+				comment="Defines the weight of a object (i.e. parcel/box/pack/etc.) in weight-measure-unit-codes."
+				mandatory="false" FK="false" />
+			<entity name="UnitOfMeasure" mandatory="true" cardinality="*"
+				parentkey="LinearUnitOfMeasureCode">
+				<attribute name="UnitOfMeasureCode" datatype="VARCHAR2"
+					size="20"
+					comment="The code used to specify the units in which a value is being expressed, or manner in which a measurement has been taken. This code relates to the UCC data element 355."
+					mandatory="true" FK="false" />
+				<attribute name="UnitOfMeasureTypeCode" datatype="VARCHAR2"
+					size="20"
+					comment="Indicates what this unit of measure entity type instance measures.  Examples include weight or mass, length, cube (length x width x depth), volume, discrete items (each), etc."
+					mandatory="false" FK="false" />
+				<attribute name="EnglishMetricFlag" datatype="CHAR" size="1"
+					comment="Indicates whether this unit of measure is part of the English (i.e. 'Imperial') or Metric system of measurements.&#xA;&#xA;0 - English (i.e. 'Imperial', the default)&#xA;1 - Metric"
+					mandatory="false" FK="false" />
+				<attribute name="Name" datatype="VARCHAR2" size="40"
+					comment="Name assigned to this unit of measure." mandatory="false"
+					FK="false" />
+				<attribute name="Description" datatype="CLOB" size="4"
+					comment="Description assigned to this unit of measure." mandatory="false"
+					FK="false" />
+			</entity>
+			<entity name="UnitOfMeasure" mandatory="true" cardinality="*"
+				parentkey="VolumeUnitOfMeasureCode">
+				<attribute name="UnitOfMeasureCode" datatype="VARCHAR2"
+					size="20"
+					comment="The code used to specify the units in which a value is being expressed, or manner in which a measurement has been taken. This code relates to the UCC data element 355."
+					mandatory="true" FK="false" />
+				<attribute name="UnitOfMeasureTypeCode" datatype="VARCHAR2"
+					size="20"
+					comment="Indicates what this unit of measure entity type instance measures.  Examples include weight or mass, length, cube (length x width x depth), volume, discrete items (each), etc."
+					mandatory="false" FK="false" />
+				<attribute name="EnglishMetricFlag" datatype="CHAR" size="1"
+					comment="Indicates whether this unit of measure is part of the English (i.e. 'Imperial') or Metric system of measurements.&#xA;&#xA;0 - English (i.e. 'Imperial', the default)&#xA;1 - Metric"
+					mandatory="false" FK="false" />
+				<attribute name="Name" datatype="VARCHAR2" size="40"
+					comment="Name assigned to this unit of measure." mandatory="false"
+					FK="false" />
+				<attribute name="Description" datatype="CLOB" size="4"
+					comment="Description assigned to this unit of measure." mandatory="false"
+					FK="false" />
+			</entity>
+			<entity name="UnitOfMeasure" mandatory="true" cardinality="*"
+				parentkey="WeightUnitOfMeasureCode">
+				<attribute name="UnitOfMeasureCode" datatype="VARCHAR2"
+					size="20"
+					comment="The code used to specify the units in which a value is being expressed, or manner in which a measurement has been taken. This code relates to the UCC data element 355."
+					mandatory="true" FK="false" />
+				<attribute name="UnitOfMeasureTypeCode" datatype="VARCHAR2"
+					size="20"
+					comment="Indicates what this unit of measure entity type instance measures.  Examples include weight or mass, length, cube (length x width x depth), volume, discrete items (each), etc."
+					mandatory="false" FK="false" />
+				<attribute name="EnglishMetricFlag" datatype="CHAR" size="1"
+					comment="Indicates whether this unit of measure is part of the English (i.e. 'Imperial') or Metric system of measurements.&#xA;&#xA;0 - English (i.e. 'Imperial', the default)&#xA;1 - Metric"
+					mandatory="false" FK="false" />
+				<attribute name="Name" datatype="VARCHAR2" size="40"
+					comment="Name assigned to this unit of measure." mandatory="false"
+					FK="false" />
+				<attribute name="Description" datatype="CLOB" size="4"
+					comment="Description assigned to this unit of measure." mandatory="false"
+					FK="false" />
+			</entity>
+		</entity>
+	</entity>
+</entity>

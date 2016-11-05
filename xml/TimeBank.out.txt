@@ -1,0 +1,438 @@
+{
+ "$schema": "http://json-schema.org/draft-04/schema#",
+ "type": "array",
+ "items":
+ {
+  "type": "object",
+  "properties":
+  {
+   "BankedBalanceEffectiveDate":
+   {
+    "type": "string",
+    "description": "A date showing how up-to-date the 'banked' balance actually is."
+   },
+   "TimeUnitsBankedBalance":
+   {
+    "type": "number",
+    "description": "The net 'banked' TimeUnitOfMeasureCode quantity to (positive balance) a partner or 'owed' by (negative balance) a partner."
+   },
+   "WorkerPositionAssignment":
+   {
+    "type": "array",
+    "description": "",
+    "items":
+    {
+     "type": "object",
+     "properties":
+     {
+      "AssignmentEffectiveDate":
+      {
+       "type": "string",
+       "description": "The date that an EMPLOYEE ASSIGMENT is first valid."
+      },
+      "StatusCode":
+      {
+       "type": "string",
+       "description": "A code that represents the current state of a WorkerAssignment."
+      },
+      "ExpirationDate":
+      {
+       "type": "string",
+       "description": "The date that an employee's assignment is no longer valid."
+      },
+      "Title":
+      {
+       "type": "string",
+       "description": "The title the Worker held while assigned to the nominated Position. e.g. Sporting Goods Department Manager"
+      },
+      "FullTimeFlag":
+      {
+       "type": "string",
+       "description": "A boolean flag recording whether or not the nominated Worker in this Position worked a mandated 37.5 or 40 hours per-week. True (=1), False(=0)"
+      },
+      "SalaryFlag":
+      {
+       "type": "string",
+       "description": "A boolean flag recording whether or not the nominated Worker in the nominated Position was paid a Salary or per time period. Salary(=1), Other(=0)"
+      },
+      "OvertimeExemptFlag":
+      {
+       "type": "string",
+       "description": "A boolean flag recording whether or not the nominated Worker in the nominated Position was exempt from working overtime. Exempt(=1), Not exempt (=0)"
+      },
+      "PenalRateFlag":
+      {
+       "type": "string",
+       "description": "A boolean flag recording whether or not the nominated Worker in the nominated Position was paid a penal rate for working overtime. Penal Rate(=1); Not(=0). Sometimes referred to as OvertimeEligibileFlag."
+      },
+      "CommissionFlag":
+      {
+       "type": "string",
+       "description": "A boolean flag recording whether or not the nominated Worker in the nominated Position was paid commission on the sales that they made. Comission paid (=1), Not(=0)"
+      },
+      "PayPeriodCode":
+      {
+       "type": "string",
+       "description": "A retailer assigned code denoting the pay period for the nominated Worker in the nominated Position. e.g. Hour, Week, Month, Year"
+      },
+      "PayRate":
+      {
+       "type": "number",
+       "description": "A monetary amount being the amount paid per PayPeriod to the nominated Worker in the nominated Position."
+      },
+      "AlternativeAssignmentID":
+      {
+       "type": "string",
+       "description": "An alternate (pseudo surrogate) key for the WorkerPositionAssignment,"
+      },
+      "Worker":
+      {
+       "type": "array",
+       "description": "",
+       "items":
+       {
+        "type": "object",
+        "properties":
+        {
+         "WorkerID":
+         {
+          "type": "number",
+          "description": "A unique system-assigned identifier for the Person who is a particular Worker."
+         },
+         "WorkerTypeCode":
+         {
+          "type": "string",
+          "description": "A unique retailer assigned code denoting the kind of Worker."
+         },
+         "WorkerPhotograph":
+         {
+          "type": "string",
+          "description": "A binary data object containing a current photographic image of the Worker."
+         },
+         "SpecialRequirements":
+         {
+          "type": "string",
+          "description": "A narrative describing any special requirements the Worker has when working e.g. Wheelchair access required."
+         },
+         "SocialSecurityNumber":
+         {
+          "type": "string",
+          "description": "The Worker's SocialSecurityNumber. Note: In non-North American jurisdictions this may be known by a variety of other names e.g. in the UK - NINO (National Insurance Number)."
+         }
+        },
+       "additionalProperties": false,
+       "required":["WorkerID", "WorkerTypeCode"]
+       }
+      },
+      "Position":
+      {
+       "type": "array",
+       "description": "",
+       "items":
+       {
+        "type": "object",
+        "properties":
+        {
+         "PositionID":
+         {
+          "type": "number",
+          "description": "A unique identifier for a specific Position. This may or may not be controlled by a centralized HR function."
+         },
+         "Title":
+         {
+          "type": "string",
+          "description": "Short name describing the Position."
+         },
+         "Description":
+         {
+          "type": "string",
+          "description": "Short narrative text describing the Position."
+         },
+         "FullTimeFlag":
+         {
+          "type": "string",
+          "description": "A boolean flag recording whether or not Workers in this Postion normally work a mandated 37.5 or 40 hours per-week. True (=1), False(=0)"
+         },
+         "SalaryFlag":
+         {
+          "type": "string",
+          "description": "A boolean flag recording whether or not Workers in this Position are normally paid a Salary or per time period. Salary(=1), Other(=0)"
+         },
+         "OvertimeExemptFlag":
+         {
+          "type": "string",
+          "description": "A boolean flag recording whether or not Workers in this Position are normally exempt from working overtime. Exempt(=1), Not exempt (=0)"
+         },
+         "PenalRateFlag":
+         {
+          "type": "string",
+          "description": "A boolean flag recording whether or not Workers in this Position are normally paid a penal rate for working overtime. Penal Rate(=1); Not(=0). Sometimes referred to as OvertimeEligibileFlag."
+         },
+         "PayPeriodCode":
+         {
+          "type": "string",
+          "description": "A retailer assigned code denoting the normal pay period for Workers in this Position. e.g. Hour, Week, Month, Year"
+         },
+         "PayRate":
+         {
+          "type": "number",
+          "description": "A monetary amount being the normal amount paid per PayPeriod to Workers in this Position."
+         },
+         "WorkLocation":
+         {
+          "type": "array",
+          "description": "",
+          "items":
+          {
+           "type": "object",
+           "properties":
+           {
+            "LocationID":
+            {
+             "type": "number",
+             "description": "A unique system assigned identifier for the Location."
+            },
+            "BusinessUnit":
+            {
+             "type": "array",
+             "description": "",
+             "items":
+             {
+              "type": "object",
+              "properties":
+              {
+               "BusinessUnitID":
+               {
+                "type": "string",
+                "description": "A unique retailer assigned identifier for an RetailStore, DistributionCenter or AdministrationCenter"
+               },
+               "TypeCode":
+               {
+                "type": "string",
+                "description": "A unique retailer assigned code denoting the applicable sub-type of BusinessUnit. A unique retailer assigned identifier for an RetailStore, DistributionCenter or AdministrationCenter, or organisational (departmental/directorate) cut of the above e.g. 'Home', 'EHT', 'Fashion', etc."
+               },
+               "Name":
+               {
+                "type": "string",
+                "description": "The name of the BusinessUnit"
+               }
+              },
+             "additionalProperties": false,
+             "required":["BusinessUnitID"]
+             }
+            },
+            "Location":
+            {
+             "type": "array",
+             "description": "",
+             "items":
+             {
+              "type": "object",
+              "properties":
+              {
+               "LocationID":
+               {
+                "type": "number",
+                "description": "A unique system assigned identifier for the Location."
+               },
+               "Size":
+               {
+                "type": "number",
+                "description": "The floor area of the Location expressed in an appropriate UnitOfMeasure (UOM). For 'InventoryLocation' this would specify the area or volume set asside for storing merchandise, expressed in the appropriate UOM. For 'SellingLocation' this would specify the floor area set aside for Selling activities expressed in the appropriate UOM."
+               },
+               "LocationName":
+               {
+                "type": "string",
+                "description": "The common name for the Location."
+               },
+               "LocationDescription":
+               {
+                "type": "string",
+                "description": "A description for the Location"
+               },
+               "LocationTypeCode":
+               {
+                "type": "string",
+                "description": "A code that uniquely identifies a Location Type This would include destination locations like: Customer, DC, CDH, etc."
+               },
+               "StartDate":
+               {
+                "type": "string",
+                "description": "Start effective date for the location"
+               },
+               "EndDate":
+               {
+                "type": "string",
+                "description": "End effective date for the location"
+               },
+               "CreationTimestamp":
+               {
+                "type": "string",
+                "description": "Creation date and time for the location"
+               },
+               "LastUpdateTimestamp":
+               {
+                "type": "string",
+                "description": "last update date and time"
+               },
+               "DisabledAccessAdvisory":
+               {
+                "type": "string",
+                "description": "The disabled access advisory / guidance statement for the Location should anyone needing access be disabled. Current JL advisories used for a 'collection plus collection point' are: 'Poor', 'Good', 'Reasonable'."
+               },
+               "BusinessUnit":
+               {
+                "type": "array",
+                "description": "",
+                "items":
+                {
+                 "type": "object",
+                 "properties":
+                 {
+                  "BusinessUnitID":
+                  {
+                   "type": "string",
+                   "description": "A unique retailer assigned identifier for an RetailStore, DistributionCenter or AdministrationCenter"
+                  },
+                  "TypeCode":
+                  {
+                   "type": "string",
+                   "description": "A unique retailer assigned code denoting the applicable sub-type of BusinessUnit. A unique retailer assigned identifier for an RetailStore, DistributionCenter or AdministrationCenter, or organisational (departmental/directorate) cut of the above e.g. 'Home', 'EHT', 'Fashion', etc."
+                  },
+                  "Name":
+                  {
+                   "type": "string",
+                   "description": "The name of the BusinessUnit"
+                  }
+                 },
+                "additionalProperties": false,
+                "required":["BusinessUnitID"]
+                }
+               },
+               "Location":
+               {
+                "type": "array",
+                "description": "",
+                "items":
+                {
+                 "type": "object",
+                 "properties":
+                 {
+                  "LocationID":
+                  {
+                   "type": "number",
+                   "description": "A unique system assigned identifier for the Location."
+                  },
+                  "Size":
+                  {
+                   "type": "number",
+                   "description": "The floor area of the Location expressed in an appropriate UnitOfMeasure (UOM). For 'InventoryLocation' this would specify the area or volume set asside for storing merchandise, expressed in the appropriate UOM. For 'SellingLocation' this would specify the floor area set aside for Selling activities expressed in the appropriate UOM."
+                  },
+                  "LocationName":
+                  {
+                   "type": "string",
+                   "description": "The common name for the Location."
+                  },
+                  "LocationDescription":
+                  {
+                   "type": "string",
+                   "description": "A description for the Location"
+                  },
+                  "LocationTypeCode":
+                  {
+                   "type": "string",
+                   "description": "A code that uniquely identifies a Location Type This would include destination locations like: Customer, DC, CDH, etc."
+                  },
+                  "StartDate":
+                  {
+                   "type": "string",
+                   "description": "Start effective date for the location"
+                  },
+                  "EndDate":
+                  {
+                   "type": "string",
+                   "description": "End effective date for the location"
+                  },
+                  "CreationTimestamp":
+                  {
+                   "type": "string",
+                   "description": "Creation date and time for the location"
+                  },
+                  "LastUpdateTimestamp":
+                  {
+                   "type": "string",
+                   "description": "last update date and time"
+                  },
+                  "DisabledAccessAdvisory":
+                  {
+                   "type": "string",
+                   "description": "The disabled access advisory / guidance statement for the Location should anyone needing access be disabled. Current JL advisories used for a 'collection plus collection point' are: 'Poor', 'Good', 'Reasonable'."
+                  }
+                 },
+                "additionalProperties": false,
+                "required":["LocationID", "Size"]
+                }
+               }
+              },
+             "additionalProperties": false,
+             "required":["LocationID", "Size"]
+             }
+            }
+           },
+          "additionalProperties": false,
+          "required":["LocationID"]
+          }
+         }
+        },
+       "additionalProperties": false,
+       "required":["PositionID"]
+       }
+      }
+     },
+    "additionalProperties": false,
+    "required":["AssignmentEffectiveDate"]
+    }
+   },
+   "UnitOfMeasure":
+   {
+    "type": "array",
+    "description": "",
+    "items":
+    {
+     "type": "object",
+     "properties":
+     {
+      "UnitOfMeasureCode":
+      {
+       "type": "string",
+       "description": "The code used to specify the units in which a value is being expressed, or manner in which a measurement has been taken. This code relates to the UCC data element 355."
+      },
+      "UnitOfMeasureTypeCode":
+      {
+       "type": "string",
+       "description": "Indicates what this unit of measure entity type instance measures. Examples include weight or mass, length, cube (length x width x depth), volume, discrete items (each), etc."
+      },
+      "EnglishMetricFlag":
+      {
+       "type": "string",
+       "description": "Indicates whether this unit of measure is part of the English (i.e. 'Imperial') or Metric system of measurements. 0 - English (i.e. 'Imperial', the default) 1 - Metric"
+      },
+      "Name":
+      {
+       "type": "string",
+       "description": "Name assigned to this unit of measure."
+      },
+      "Description":
+      {
+       "type": "string",
+       "description": "Description assigned to this unit of measure."
+      }
+     },
+    "additionalProperties": false,
+    "required":["UnitOfMeasureCode"]
+    }
+   }
+  },
+  "additionalProperties": false
+ }
+}

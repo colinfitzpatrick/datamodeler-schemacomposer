@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity name="CarrierLabel">
+	<attribute name="CarrierLabelID" datatype="INTEGER" size="0"
+		comment="A unique system assigned identifier for the Carrier Label"
+		mandatory="true" FK="false" />
+	<attribute name="CarrierLabel" datatype="BLOB" size="4"
+		comment="The Carrier supplied label which is affixed to the Parcel"
+		mandatory="false" FK="false" />
+	<attribute name="TrackingID" datatype="INTEGER" size="0"
+		comment="A tracking number provided by the service provider who actually delivers the shipment."
+		mandatory="false" FK="false" />
+	<attribute name="TrackingURL" datatype="CLOB" size="4"
+		comment="A URL to the service provider's website, which allows interested parties to track the shipment."
+		mandatory="false" FK="false" />
+	<attribute name="CheckReferenceNumber" datatype="VARCHAR2"
+		size="max"
+		comment="A reference code used by the carrier to verify the customer.  This is printed on the label.&#xA;&#xA;This is usually the last 4 digits of the customers credit card."
+		mandatory="false" FK="false" />
+	<entity name="VisualFileFormatType" mandatory="true"
+		cardinality="*" parentkey="FileFormatTypeCode">
+		<attribute name="DPI" datatype="INTEGER" size="0"
+			comment="The Dots Per Inch of the Image or PDF attached." mandatory="false"
+			FK="false" />
+		<supertype name="FileFormatType" mandatory="false"
+			cardinality="" parentkey="">
+			<attribute name="FileFormatTypeCode" datatype="VARCHAR2"
+				size="20"
+				comment="Identifies a digitial file format.&#xA;&#xA;Exmples include:&#xA;mpeg&#xA;jpeg&#xA;QuickTime&#xA;flashvideo"
+				mandatory="true" FK="false" />
+			<attribute name="FileFormatName" datatype="CLOB" size="4"
+				comment="Business name for the FileFormatType" mandatory="false" FK="false" />
+			<attribute name="FileFormatExtension" datatype="VARCHAR2"
+				size="20"
+				comment="File extension typically used to designate a file as this type of file format."
+				mandatory="false" FK="false" />
+		</supertype>
+	</entity>
+	<entity name="Carrier" mandatory="true" cardinality="*"
+		parentkey="CarrierID">
+		<attribute name="VendorID" datatype="INTEGER" size="0"
+			comment="A unique system assigned identifier for the Vendor."
+			mandatory="true" FK="false" />
+	</entity>
+	<entity name="ParcelForDelivery" mandatory="true" cardinality="1"
+		parentkey="ParcelID">
+		<attribute name="ParcelID" datatype="CHAR" size="18"
+			comment="A unique system assigned identifier for the Parcel."
+			mandatory="true" FK="false" />
+		<attribute name="ParcelBarCode" datatype="CHAR" size="18"
+			comment="This holds the bar code scanned and associated with a parcel when the ordered item/items are placed in a parcel for delivery."
+			mandatory="true" FK="false" />
+		<attribute name="ParcelStatus" datatype="CHAR" size="18"
+			comment="This records the status of a parcel." mandatory="false" FK="false" />
+		<attribute name="ValueForInsurance" datatype="NUMBER" size="9"
+			comment="The declared insurable value of the item(s) in the parcel. This value is used as part of the business rules for carrier selection."
+			mandatory="false" FK="false" />
+		<attribute name="DropSequenceNumber" datatype="CHAR" size="18"
+			comment="This is a sequencial (alpha-numeric) number assigned to each of the parcel drops on a given delivery route."
+			mandatory="false" FK="false" />
+		<attribute name="DeliveryDate" datatype="DATE" size="8"
+			comment="The actual delivery date" mandatory="false" FK="false" />
+		<attribute name="ProofOfDeliveryFlag" datatype="CHAR" size="1"
+			comment="Set if proof of delivery is required for the parcel."
+			mandatory="false" FK="false" />
+		<entity name="Dimensions" mandatory="true" cardinality="*"
+			parentkey="DimensionID">
+			<attribute name="DimensionID" datatype="INTEGER" size="0"
+				comment="A unique identifier for a given set of dimensions on an object."
+				mandatory="true" FK="false" />
+			<attribute name="Height" datatype="NUMBER" size="5"
+				comment="Defines the height of a object (i.e. parcel/box/pack/etc.) in linear-measure-unit-codes."
+				mandatory="false" FK="false" />
+			<attribute name="Width" datatype="NUMBER" size="5"
+				comment="Defines the width of a object (i.e. parcel/box/pack/etc.) in linear-measure-unit-codes."
+				mandatory="false" FK="false" />
+			<attribute name="Depth" datatype="NUMBER" size="5"
+				comment="Defines the depth of a object (i.e. parcel/box/pack/etc.) in linear-measure-unit-codes."
+				mandatory="false" FK="false" />
+			<attribute name="Length" datatype="NUMBER" size="5"
+				comment="Defines the length of a object (i.e. parcel/box/pack/etc.) in linear-measure-unit-codes."
+				mandatory="false" FK="false" />
+			<attribute name="Volume" datatype="NUMBER" size="5"
+				comment="Defines the cubic volume of a object (i.e. parcel/box/pack/etc.) in 'VolumeUnitOfMeasure' codes."
+				mandatory="false" FK="false" />
+			<attribute name="Weight" datatype="NUMBER" size="5"
+				comment="Defines the weight of a object (i.e. parcel/box/pack/etc.) in weight-measure-unit-codes."
+				mandatory="false" FK="false" />
+			<entity name="UnitOfMeasure" mandatory="true" cardinality="*"
+				parentkey="LinearUnitOfMeasureCode">
+				<attribute name="UnitOfMeasureCode" datatype="VARCHAR2"
+					size="20"
+					comment="The code used to specify the units in which a value is being expressed, or manner in which a measurement has been taken. This code relates to the UCC data element 355."
+					mandatory="true" FK="false" />
+				<attribute name="UnitOfMeasureTypeCode" datatype="VARCHAR2"
+					size="20"
+					comment="Indicates what this unit of measure entity type instance measures.  Examples include weight or mass, length, cube (length x width x depth), volume, discrete items (each), etc."
+					mandatory="false" FK="false" />
+				<attribute name="EnglishMetricFlag" datatype="CHAR" size="1"
+					comment="Indicates whether this unit of measure is part of the English (i.e. 'Imperial') or Metric system of measurements.&#xA;&#xA;0 - English (i.e. 'Imperial', the default)&#xA;1 - Metric"
+					mandatory="false" FK="false" />
+				<attribute name="Name" datatype="VARCHAR2" size="40"
+					comment="Name assigned to this unit of measure." mandatory="false"
+					FK="false" />
+				<attribute name="Description" datatype="CLOB" size="4"
+					comment="Description assigned to this unit of measure." mandatory="false"
+					FK="false" />
+				<supertype name="SaleReturnLineItem" mandatory="true"
+					cardinality="*" parentkey="">
+					<attribute name="RetailTransactionLineItemSequenceNumber"
+						datatype="INTEGER" size="0"
+						comment="The sequence number of line item within the context of this RetailTransaction."
+						mandatory="true" FK="false" />
+					<attribute name="ItemLookupMethodCode" datatype="VARCHAR2"
+						size="4"
+						comment="A mnemonic code denoting which code was used to enter the Item into the RetailTransaction e.g. POSIdentity,  POSIdentiyAndQualifier, ItemID, POSDepartmentID."
+						mandatory="false" FK="false" />
+					<attribute name="ItemType" datatype="VARCHAR2" size="4"
+						comment="Meta-Data denoting the kind of item being sold (or returned) in the line item e.g.  StockItem, ServiceItem, AggregateItem, etc."
+						mandatory="false" FK="false" />
+					<attribute name="SubItemType" datatype="VARCHAR2" size="4"
+						comment="Meta-Data denoting the kind of StockItem or ServiceItem being sold (or returned) in the line item  e.g.  FuelItem, BulkItem, ApparelItem, RentalItem, MiscellaneousFee, etc."
+						mandatory="false" FK="false" />
+					<attribute name="RegularUnitPrice" datatype="NUMBER"
+						size="4"
+						comment="The regular or lookup per-unit price for the item before any discounts have been applied."
+						mandatory="true" FK="false" />
+					<attribute name="RegularUnitPriceQuantity" datatype="INTEGER"
+						size="0"
+						comment="The number of units applicable to the regular or lookup-up price of the Item at the time of the Transaction  e.g. 3 for 99c"
+						mandatory="false" FK="false" />
+					<attribute name="ActualUnitPrice" datatype="NUMBER" size="4"
+						comment="The actual per-unit price paid by the customer for this particular sale. It is obtained by applying  applicable price derivation rules to the regular unit price."
+						mandatory="false" FK="false" />
+					<attribute name="ActualUnitPriceQuantity" datatype="INTEGER"
+						size="0"
+						comment="The number of units applicable to the actual per-unit price paid by the customer for this particular sale. &#xA;&#xA;e.g.  3 for 87c"
+						mandatory="false" FK="false" />
+					<attribute name="Quantity" datatype="INTEGER" size="0"
+						comment="The number of retail selling units sold to or returned by a customer.  For services the number of units (e.g. hours or job) sold or in the case of refunds, reduced to zero revenue."
+						mandatory="true" FK="false" />
+					<attribute name="Units" datatype="INTEGER" size="0"
+						comment="The number of units sold, when selling bulk merchandise.&#xA;&#xA;Eg: A sale of 20 Gallons of Gas:&#xA;Quantity=20, Units=1, UnitOfMeasure=Ga&#xA;&#xA;Eg: A sale of 3 cans of Beans:&#xA;Quantity=3, Units=3, UnitOfMeasure=Ea"
+						mandatory="false" FK="false" />
+					<attribute name="ExtendedAmount" datatype="NUMBER" size="9"
+						comment="The product of multiplying Quantity by the retail selling unit price derived from price lookup (and any applicable price derivation rules).  This retail sale unit price excludes sales and/or value added tax."
+						mandatory="true" FK="false" />
+					<attribute name="UnitDiscountAmount" datatype="NUMBER"
+						size="4"
+						comment="The monetary total per-unit of all Discounts and RetailPriceModifiers that were applied to this Item"
+						mandatory="false" FK="false" />
+					<attribute name="ExtendedDiscountAmount" datatype="NUMBER"
+						size="4"
+						comment="The monetary total of all Discounts and RetailPriceModifiers that were applied to this Item"
+						mandatory="false" FK="false" />
+					<attribute name="ItemIDEntryMethodCode" datatype="VARCHAR2"
+						size="4"
+						comment="A code that describes how this line item's item identification is being entered (e.g. it is scanned, keyed SKU, keyed department, etc.)"
+						mandatory="false" FK="false" />
+					<attribute name="SellUnitRetailPriceEntryMethodCode"
+						datatype="VARCHAR2" size="4"
+						comment="A code that describes how this line item's retail selling unit price is being entered (e.g. it is manually keyed, obtained from price lookup,  etc.)"
+						mandatory="false" FK="false" />
+					<attribute name="SellUnitRetailPriceDerivationMethodCode"
+						datatype="VARCHAR2" size="4"
+						comment="A code that documents how the selling unit retail prices were derived for this line item."
+						mandatory="false" FK="false" />
+					<attribute name="ActionCode" datatype="VARCHAR2" size="2"
+						comment="A code denoting how the item is being treated in the line item."
+						mandatory="false" FK="false" />
+					<attribute name="UnitCostPrice" datatype="NUMBER" size="9"
+						comment="The unit cost of the Item to the retail enterprise at the time of the Transaction."
+						mandatory="false" FK="false" />
+					<attribute name="UnitCostPriceQuantity" datatype="INTEGER"
+						size="0"
+						comment="The number of units applicable to the cost of the Item to the retail enterprise at the time of the Transaction  e.g. 3 for 99c"
+						mandatory="false" FK="false" />
+					<attribute name="UnitListPrice" datatype="NUMBER" size="4"
+						comment="The unit MSRP of the Item at the time of the Transaction"
+						mandatory="false" FK="false" />
+					<attribute name="UnitListPriceQuantity" datatype="INTEGER"
+						size="0"
+						comment="The number of units applicable to the MSRP of the Item at the time of the Transaction  e.g. 3 for 99c"
+						mandatory="false" FK="false" />
+					<attribute name="InventoryValuePrice" datatype="NUMBER"
+						size="9"
+						comment="The value per unit of the Item taken from the StockLedger at the time of the Transaction."
+						mandatory="false" FK="false" />
+					<attribute name="InventoryValuePriceQuantity" datatype="INTEGER"
+						size="0"
+						comment="The number of units applicable to the value per unit of the Item taken from the StockLedger at the time of the Transaction  e.g.  3 for 99c"
+						mandatory="false" FK="false" />
+					<attribute name="GiftReceiptFlag" datatype="CHAR" size="1"
+						comment="A flag denoting that an abbreviated GiftReceipt was issued for this LineItem.  This may mean that return processing will be different if the item is returned. (Yes=1, No=0)"
+						mandatory="false" FK="false" />
+					<entity name="ISO4217-CurrencyType" mandatory="true"
+						cardinality="*" parentkey="ActualUnitPrice.ISOCurrencyCode">
+						<attribute name="ISOCurrencyCode" datatype="VARCHAR2"
+							size="20"
+							comment="Currency code designated by ISO to identify national currency"
+							mandatory="true" FK="false" />
+						<attribute name="ISOCurrencyNumber" datatype="VARCHAR2"
+							size="3"
+							comment="Numeric code assigned by ISO to identify national currencies"
+							mandatory="false" FK="false" />
+						<attribute name="ISOCurrencyName" datatype="VARCHAR2"
+							size="40" comment="ISO designated currency name" mandatory="false"
+							FK="false" />
+						<attribute name="RetailerAssignedCurrencyTypeCode"
+							datatype="VARCHAR2" size="20"
+							comment="Retailer assigned currency code that may be used as an alternate key."
+							mandatory="false" FK="false" />
+						<attribute name="Symbol" datatype="VARCHAR2" size="40"
+							comment="National symbol for the main unit of currency, e.g. £, $, etc"
+							mandatory="false" FK="false" />
+						<attribute name="CostNODecimals" datatype="NUMBER" size="1"
+							comment="Contains the number of decimals (allowed after the point) supported by the currency for costs (buying perspective)."
+							mandatory="false" FK="false" />
+						<attribute name="RetailNODecimals" datatype="NUMBER"
+							size="1"
+							comment="Contains the number of decimals (allowed after the point) supported by the currency for retail selling."
+							mandatory="false" FK="false" />
+					</entity>
+					<entity name="ISO3166-1Country" mandatory="true"
+						cardinality="*" parentkey="">
+						<attribute name="ISOCountryCode" datatype="VARCHAR2"
+							size="20"
+							comment="The ISO-3166-1 two letter code denoting a locality (at Country level) in which the retailer does business."
+							mandatory="true" FK="false" />
+						<attribute name="CountryName" datatype="VARCHAR2" size="40"
+							comment="The name of a locality (at Country level) in which the retailer does business."
+							mandatory="false" FK="false" />
+						<attribute name="ISO3166ThreeCharacterCountryCode"
+							datatype="CHAR" size="3"
+							comment="ISO designated three character abbreviation for a country, This code is usually more closely related to the country name than the alpha-2 code."
+							mandatory="false" FK="false" />
+						<attribute name="ISO3166ThreeNumberCountryCode"
+							datatype="NUMBER" size="2"
+							comment="ISO designated three digit abbreviation/codification for a country,"
+							mandatory="false" FK="false" />
+						<attribute name="ISO3166FourCharacterCountryCode"
+							datatype="CHAR" size="4"
+							comment="ISO designated four character abbreviation for a country, Also known as 'Formerly used codes' this four-letter country code represents a country name that is no longer in use. The structure depends on the reason why the country name was removed from ISO 3166-1 and added to ISO 3166-3."
+							mandatory="false" FK="false" />
+						<attribute name="UserDefinedCodeFlag" datatype="CHAR"
+							size="1"
+							comment="A Boolean flag to indicate if this is a user (JL) defined country codification. &#xA;Yes (=1), No (=0). 'No' will be the default.&#xA;Specific ISO codes are set aside by the ISO for this express purpose."
+							mandatory="true" FK="false" />
+						<attribute name="PrimaryCountryOfOriginFlag" datatype="CHAR"
+							size="1"
+							comment="Indicates whether the country is the primary country for the item\supplier Or Manufacture origin. Valid boolean values are Y(=1) and N(=0)."
+							mandatory="false" FK="false" />
+					</entity>
+					<entity name="RetailTransactionShipmentItem" mandatory="true"
+						cardinality="*" parentkey="">
+						<attribute name="ShipmentLineItemSequenceNumber"
+							datatype="INTEGER" size="0"
+							comment="A unique, non-significant, automatically assigned sequential number used&#xA;to identify this item within the context of the RetailTransactionShipment."
+							mandatory="true" FK="false" />
+						<attribute name="Quantity" datatype="INTEGER" size="0"
+							comment="Denotes how many of the items in the relevant SaleReturnLineItem are to be delivered in this shipment.&#xA;&#xA;The implication being that one may purchase more than one of an item in a single SaleReturnLineItem and each instance of the item purchased may be shipped to a different address."
+							mandatory="false" FK="false" />
+					</entity>
+					<supertype name="Item" mandatory="true" cardinality="*"
+						parentkey="ItemID">
+						<attribute name="ItemID" datatype="VARCHAR2" size="32"
+							comment="A unique system assigned identifier for the retailer's SKU."
+							mandatory="true" FK="false" />
+						<attribute name="PriceLineID" datatype="INTEGER" size="0"
+							comment="A unique identifier for this price point." mandatory="true"
+							FK="false" />
+						<attribute name="SubBrand" datatype="INTEGER" size="0"
+							comment="A sequence number that identifies a subbrand within a brand."
+							mandatory="true" FK="false" />
+						<attribute name="AuthorizedForSaleFlag" datatype="CHAR"
+							size="1"
+							comment="A boolean flag to indicate that the RETAIL STORE is authorized to stock this particular ITEM. Yes (=1) and No (=0)."
+							mandatory="false" FK="false" />
+						<attribute name="DiscountFlag" datatype="CHAR" size="1"
+							comment="A boolean flag to indicate whether this ITEM can be discounted. Yes (=1) and No (=0)."
+							mandatory="false" FK="false" />
+						<attribute name="PriceAuditFlag" datatype="CHAR" size="1"
+							comment="A boolean flag to denote whether this ITEM was validated (scanned) during verification of the ITEM table. Yes (=1) and No (=0)."
+							mandatory="false" FK="false" />
+						<attribute name="TaxExemptCode" datatype="VARCHAR2"
+							size="2"
+							comment="A code to denote the tax exemption status from sales and use tax. The codes refer to the UCC code, Tax Exempt Code, defined in data element 441."
+							mandatory="false" FK="false" />
+						<attribute name="UsageCode" datatype="VARCHAR2" size="2"
+							comment="This code defines how this item may be used within a store, web site (i.e. virtual store) or other JL business unit / location.  Usage is a function of how an item may be consumed or disposed of by the store.&#xA;&#xA;Valid item usages include:&#xA;SALES: Sales - the item may be sold&#xA;SUPPLY: Supply - the item is for internal consumption and may not be sold&#xA;DISPLAY : Display - the item is intended to present merchandise on the sales floor&#xA;BOTH: Both - Item may be sold AND/OR consumed as a supply item&#xA;&#xA;In instances where an item usage is stated as 'Both', an accounting transfer transaction will be required to change the &quot;usage state&quot; of the items consumed/used from a retail item to a supply item for accounting purposes."
+							mandatory="false" FK="false" />
+						<attribute name="Name" datatype="VARCHAR2" size="40"
+							comment="The preferred JL name by which the Item is known.  All non-preferred names are deemed 'aliases'."
+							mandatory="false" FK="false" />
+						<attribute name="Description" datatype="CLOB" size="4"
+							comment="The textual description of the Item and its characteristics."
+							mandatory="false" FK="false" />
+						<attribute name="LongDescription" datatype="VARCHAR2"
+							size="4000"
+							comment="A longer textual description of the Item and its characteristics."
+							mandatory="false" FK="false" />
+						<attribute name="ItemSubTypeCode" datatype="VARCHAR2"
+							size="4"
+							comment="This code indicates which subtype this item is.  Examples are Stock Item, Aggregate Item, Service Item, Prepared Item, Group Select Item, etc."
+							mandatory="false" FK="false" />
+						<attribute name="ConfigurableItemFlag" datatype="CHAR"
+							size="1"
+							comment="A boolean flag that indicates whether the product is a configurable product (e.g M2M -'Made To Measure', ASAF-'Any Shape,Any Fabric'). Yes (=1) and No (=0)."
+							mandatory="false" FK="false" />
+						<attribute name="KitSetCode" datatype="VARCHAR2" size="2"
+							comment="This code signifies this ITEM is provided as a kit which has to made up either by the customer or by the store at an additional cost."
+							mandatory="false" FK="false" />
+						<attribute name="NumberOfBoxes" datatype="SMALLINT"
+							size="0"
+							comment="The number of boxes, parcels, or lots that make up one StockItem. Some products may be packaged in several lots e.g. a table might have the top and legs wrapped separately. &#xA;Used for delivery planning and ensuring all component parts are moved together (to a DC, Customer Delivery Hub, etc).&#xA;Default value will be one unit."
+							mandatory="false" FK="false" />
+						<attribute name="SubstituteIdentifiedFlag" datatype="CHAR"
+							size="1"
+							comment="A boolean flag to indicate an ITEM for which there is a substitute available for sale within the RETAIL STORE. Yes (=1) and No (=0)."
+							mandatory="false" FK="false" />
+						<attribute name="OrderCollectionCode" datatype="VARCHAR2"
+							size="2"
+							comment="A code to signify that this ITEM is ordered as part of a collection of ITEMs."
+							mandatory="false" FK="false" />
+						<attribute name="SerializedIUnitValidationFlag"
+							datatype="CHAR" size="1"
+							comment="A boolean flag used to identify if the SERIALIZED ITEM requires operator validation after payment has been made and prior to customer pickup. Yes (=1) and No (=0)."
+							mandatory="false" FK="false" />
+						<attribute name="SupplierOrderableFlag" datatype="CHAR"
+							size="1"
+							comment="A boolean flag that indicates if the product published is a 'directly' supplier orderable product/service or not. &#xA;Covers items such as 'giftcards' which can be created on demand! Yes (=1) and No (=0)."
+							mandatory="false" FK="false" />
+						<attribute name="OrderableFlag" datatype="CHAR" size="1"
+							comment="Indicates if the item is an Orderable item (Yes=1, No=0)."
+							mandatory="true" FK="false" />
+						<attribute name="ItemUnconstrainedFlag" datatype="CHAR"
+							size="1"
+							comment="A boolean flag that denotes whether the Item (which can be a StockItem, ServiceItem, etc) has constrained/unconstrained 'supply (availability).&#xA;&quot;1&quot; Unconstrained (aka 'infinite' supply)&#xA;&quot;0&quot; Constrained (i.e. 'finite' supply).&#xA;&#xA;An 'unconstrained StockItem level' is informed by one (or more stock suppliers).&#xA;&#xA;An 'unconstrained ServiceItem' is more complex to assess e.g, for 'installation services e.g. installing a washing machine, kitchen, etc)' there might be resource/time constarints in delivering the service, whereas for warranty ServiceItem(s), these would be truly 'unconstrained. A JL business assessment may make the final call on how this indicator is set."
+							mandatory="false" FK="false" />
+						<attribute name="RetailVerticalCategoryCode" datatype="VARCHAR2"
+							size="20"
+							comment="An identifier for the type of product/item categorisation type.&#xA;&#xA;ARTS identifies this as a category code for retail vertical (e.g. GROCERY, HME_IMPRVMT, APPRAL, AUTOPARTS, etc.)"
+							mandatory="false" FK="false" />
+						<attribute name="CollectionIndicatorFlag" datatype="CHAR"
+							size="1" comment="Indicates if the Item is a collection(pack) or not"
+							mandatory="false" FK="false" />
+						<attribute name="BuyingInstructions" datatype="VARCHAR2"
+							size="600" comment="Notes for the Buying Team to leave each other"
+							mandatory="false" FK="false" />
+						<attribute name="CreateDateTime" datatype="DATE" size="8"
+							comment="The Date and Time when this item was created. This value should only be set on creation and should never subsequently be changed."
+							mandatory="false" FK="false" />
+						<attribute name="OrderAsType" datatype="VARCHAR2" size="3"
+							comment="Indicates whether the Item is ordered individually or as a collection"
+							mandatory="false" FK="false" />
+						<attribute name="JLExclusiveFlag" datatype="CHAR" size="1"
+							comment="This identifies a product that a supplier is making available to ONLY John Lewis. This could be for a specified or limited period. &#xA;&#xA;Is the Item exlusive to JL or NOT? (Yes=1, No=0)."
+							mandatory="false" FK="false" />
+						<attribute name="ItemLifeCycleStatus" datatype="VARCHAR2"
+							size="20"
+							comment="Shows the life-cycle status of the item at a point in time.&#xA;&#xA;Candidates could include:&#xA;Ready for Ordering&#xA;Ready for Selling&#xA;No Further Purchase Orders&#xA;Awaiting Deletion of SKU"
+							mandatory="false" FK="false" />
+						<attribute name="ItemComments" datatype="VARCHAR2" size="2000"
+							comment="Comments about the Item (required for RMS)" mandatory="false"
+							FK="false" />
+						<attribute name="CostLineID" datatype="INTEGER" size="0"
+							comment="A unique identifier for this cost point." mandatory="false"
+							FK="false" />
+						<attribute name="PlannedExpiryDate" datatype="DATE"
+							size="8"
+							comment="Identifies if the product has a planned expiry (discontinuation) date. This will influence activities such as product replenishment, clearance sale, etc.&#xA;&#xA;This date is NOT to be confused with the expiry date that may apply to perishable (e.g. food) products to indicate use by, eat by, etc."
+							mandatory="false" FK="false" />
+						<attribute name="ForecastableFlag" datatype="CHAR" size="1"
+							comment="Indicates if JL wishes to apply forecasting algorithms for any purposes"
+							mandatory="false" FK="false" />
+					</supertype>
+				</supertype>
+			</entity>
+			<entity name="UnitOfMeasure" mandatory="true" cardinality="*"
+				parentkey="VolumeUnitOfMeasureCode">
+				<attribute name="UnitOfMeasureCode" datatype="VARCHAR2"
+					size="20"
+					comment="The code used to specify the units in which a value is being expressed, or manner in which a measurement has been taken. This code relates to the UCC data element 355."
+					mandatory="true" FK="false" />
+				<attribute name="UnitOfMeasureTypeCode" datatype="VARCHAR2"
+					size="20"
+					comment="Indicates what this unit of measure entity type instance measures.  Examples include weight or mass, length, cube (length x width x depth), volume, discrete items (each), etc."
+					mandatory="false" FK="false" />
+				<attribute name="EnglishMetricFlag" datatype="CHAR" size="1"
+					comment="Indicates whether this unit of measure is part of the English (i.e. 'Imperial') or Metric system of measurements.&#xA;&#xA;0 - English (i.e. 'Imperial', the default)&#xA;1 - Metric"
+					mandatory="false" FK="false" />
+				<attribute name="Name" datatype="VARCHAR2" size="40"
+					comment="Name assigned to this unit of measure." mandatory="false"
+					FK="false" />
+				<attribute name="Description" datatype="CLOB" size="4"
+					comment="Description assigned to this unit of measure." mandatory="false"
+					FK="false" />
+			</entity>
+			<entity name="UnitOfMeasure" mandatory="true" cardinality="*"
+				parentkey="WeightUnitOfMeasureCode">
+				<attribute name="UnitOfMeasureCode" datatype="VARCHAR2"
+					size="20"
+					comment="The code used to specify the units in which a value is being expressed, or manner in which a measurement has been taken. This code relates to the UCC data element 355."
+					mandatory="true" FK="false" />
+				<attribute name="UnitOfMeasureTypeCode" datatype="VARCHAR2"
+					size="20"
+					comment="Indicates what this unit of measure entity type instance measures.  Examples include weight or mass, length, cube (length x width x depth), volume, discrete items (each), etc."
+					mandatory="false" FK="false" />
+				<attribute name="EnglishMetricFlag" datatype="CHAR" size="1"
+					comment="Indicates whether this unit of measure is part of the English (i.e. 'Imperial') or Metric system of measurements.&#xA;&#xA;0 - English (i.e. 'Imperial', the default)&#xA;1 - Metric"
+					mandatory="false" FK="false" />
+				<attribute name="Name" datatype="VARCHAR2" size="40"
+					comment="Name assigned to this unit of measure." mandatory="false"
+					FK="false" />
+				<attribute name="Description" datatype="CLOB" size="4"
+					comment="Description assigned to this unit of measure." mandatory="false"
+					FK="false" />
+			</entity>
+		</entity>
+	</entity>
+	<entity name="CarrierShipmentType" mandatory="true" cardinality="*"
+		parentkey="CarrierShipmentTypeID">
+		<attribute name="CarrierShipmentTypeID" datatype="INTEGER"
+			size="0"
+			comment="A unique, retailer supplied identifier for the carrier assigned to the Retail Transaction Shipment."
+			mandatory="true" FK="false" />
+		<attribute name="CarrierShipmentTypeName" datatype="CHAR"
+			size="18" comment="A unique, carrier supplied identifier for the shipment type."
+			mandatory="false" FK="false" />
+	</entity>
+</entity>

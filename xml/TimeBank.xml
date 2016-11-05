@@ -1,0 +1,216 @@
+<entity name="TimeBank">
+	<attribute name="BankedBalanceEffectiveDate" datatype="DATE"
+		size="8" comment="A date showing how up-to-date the 'banked' balance actually is."
+		mandatory="false" FK="false" />
+	<attribute name="TimeUnitsBankedBalance" datatype="NUMBER"
+		size="4"
+		comment="The net 'banked' TimeUnitOfMeasureCode quantity to (positive balance) a partner or 'owed' by (negative balance) a partner."
+		mandatory="false" FK="false" />
+	<entity name="WorkerPositionAssignment" mandatory="true"
+		cardinality="1" parentkey="PositionID">
+		<attribute name="AssignmentEffectiveDate" datatype="DATE"
+			size="8" comment="The date that an EMPLOYEE ASSIGMENT is first valid."
+			mandatory="true" FK="false" />
+		<attribute name="StatusCode" datatype="VARCHAR2" size="2"
+			comment="A code that represents the current state of a WorkerAssignment."
+			mandatory="false" FK="false" />
+		<attribute name="ExpirationDate" datatype="DATE" size="8"
+			comment="The date that an employee's assignment is no longer valid."
+			mandatory="false" FK="false" />
+		<attribute name="Title" datatype="VARCHAR2" size="40"
+			comment="The title the Worker held while assigned to the nominated Position.&#xA;&#xA;e.g. Sporting Goods Department Manager"
+			mandatory="false" FK="false" />
+		<attribute name="FullTimeFlag" datatype="CHAR" size="1"
+			comment="A boolean flag recording whether or not the nominated Worker in this Position worked a  mandated 37.5 or 40 hours per-week. True (=1), False(=0)"
+			mandatory="false" FK="false" />
+		<attribute name="SalaryFlag" datatype="CHAR" size="1"
+			comment="A boolean flag recording whether or not the nominated Worker in the nominated Position was paid a Salary or per time period.  Salary(=1), Other(=0)"
+			mandatory="false" FK="false" />
+		<attribute name="OvertimeExemptFlag" datatype="CHAR" size="1"
+			comment="A boolean flag recording whether or not the nominated Worker in the nominated Position was exempt from working overtime. Exempt(=1), Not exempt (=0)"
+			mandatory="false" FK="false" />
+		<attribute name="PenalRateFlag" datatype="CHAR" size="1"
+			comment="A boolean flag recording whether or not the nominated Worker in the nominated Position was paid a penal rate for working overtime. Penal Rate(=1); Not(=0).&#xA;Sometimes referred to as OvertimeEligibileFlag."
+			mandatory="false" FK="false" />
+		<attribute name="CommissionFlag" datatype="CHAR" size="1"
+			comment="A boolean flag recording whether or not the nominated Worker in the nominated Position was paid commission on the sales that they made. Comission paid (=1), Not(=0)"
+			mandatory="false" FK="false" />
+		<attribute name="PayPeriodCode" datatype="VARCHAR2" size="4"
+			comment="A retailer assigned code denoting the pay period for the nominated Worker in the nominated Position.&#xA;&#xA;e.g. Hour, Week, Month, Year"
+			mandatory="false" FK="false" />
+		<attribute name="PayRate" datatype="NUMBER" size="9"
+			comment="A monetary amount being the amount paid per PayPeriod to the nominated Worker in the  nominated Position."
+			mandatory="false" FK="false" />
+		<attribute name="AlternativeAssignmentID" datatype="VARCHAR2"
+			size="32"
+			comment="An alternate (pseudo surrogate) key for the WorkerPositionAssignment,"
+			mandatory="false" FK="false" />
+		<supertype name="Worker" mandatory="true" cardinality="*"
+			parentkey="WorkerID">
+			<attribute name="WorkerID" datatype="INTEGER" size="0"
+				comment="A unique system-assigned identifier for the Person who is a particular Worker."
+				mandatory="true" FK="false" />
+			<attribute name="WorkerTypeCode" datatype="VARCHAR2" size="2"
+				comment="A unique retailer assigned code denoting the kind of Worker."
+				mandatory="true" FK="false" />
+			<attribute name="WorkerPhotograph" datatype="BLOB" size="4"
+				comment="A binary data object containing a current photographic image of the Worker."
+				mandatory="false" FK="false" />
+			<attribute name="SpecialRequirements" datatype="VARCHAR2"
+				size="4000"
+				comment="A narrative describing any special requirements the Worker has when working e.g. Wheelchair access required."
+				mandatory="false" FK="false" />
+			<attribute name="SocialSecurityNumber" datatype="VARCHAR2"
+				size="9"
+				comment="The Worker's SocialSecurityNumber.&#xA;Note: In non-North American jurisdictions this may be known by a variety of other names e.g. in the UK - NINO (National Insurance Number)."
+				mandatory="false" FK="false" />
+		</supertype>
+		<entity name="Position" mandatory="true" cardinality="*"
+			parentkey="PositionID">
+			<attribute name="PositionID" datatype="INTEGER" size="0"
+				comment="A unique identifier for a specific Position. This may or may not be controlled by a centralized HR function."
+				mandatory="true" FK="false" />
+			<attribute name="Title" datatype="VARCHAR2" size="40"
+				comment="Short name describing the Position." mandatory="false" FK="false" />
+			<attribute name="Description" datatype="CLOB" size="4"
+				comment="Short narrative text describing the Position." mandatory="false"
+				FK="false" />
+			<attribute name="FullTimeFlag" datatype="CHAR" size="1"
+				comment="A boolean flag recording whether or not Workers in this Postion normally work a mandated 37.5 or 40 hours per-week. True (=1), False(=0)"
+				mandatory="false" FK="false" />
+			<attribute name="SalaryFlag" datatype="CHAR" size="1"
+				comment="A boolean flag recording whether or not Workers in this Position are normally paid a Salary or per time period. Salary(=1), Other(=0)"
+				mandatory="false" FK="false" />
+			<attribute name="OvertimeExemptFlag" datatype="CHAR" size="1"
+				comment="A boolean flag recording whether or not Workers in this Position are normally exempt from working overtime.  Exempt(=1), Not exempt (=0)"
+				mandatory="false" FK="false" />
+			<attribute name="PenalRateFlag" datatype="CHAR" size="1"
+				comment="A boolean flag recording whether or not Workers in this Position are normally paid a penal rate for working overtime. Penal Rate(=1); Not(=0).&#xA;Sometimes referred to as OvertimeEligibileFlag."
+				mandatory="false" FK="false" />
+			<attribute name="PayPeriodCode" datatype="VARCHAR2" size="4"
+				comment="A retailer assigned code denoting the normal pay period for Workers in this Position.&#xA;&#xA;e.g. Hour, Week, Month, Year"
+				mandatory="false" FK="false" />
+			<attribute name="PayRate" datatype="NUMBER" size="9"
+				comment="A monetary amount being the normal amount paid per PayPeriod to Workers in this Position."
+				mandatory="false" FK="false" />
+			<entity name="WorkLocation" mandatory="true" cardinality="*"
+				parentkey="LocationID">
+				<attribute name="LocationID" datatype="INTEGER" size="0"
+					comment="A unique system assigned identifier for the Location."
+					mandatory="true" FK="false" />
+				<supertype name="BusinessUnit" mandatory="true"
+					cardinality="*" parentkey="BusinessUnitID">
+					<attribute name="BusinessUnitID" datatype="VARCHAR2"
+						size="32"
+						comment="A unique retailer assigned identifier for an RetailStore, DistributionCenter or AdministrationCenter"
+						mandatory="true" FK="false" />
+					<attribute name="TypeCode" datatype="VARCHAR2" size="2"
+						comment="A unique retailer assigned code denoting the applicable sub-type of BusinessUnit.&#xA;&#xA;A unique retailer assigned identifier for an RetailStore, DistributionCenter or AdministrationCenter, or organisational (departmental/directorate) cut of the above e.g. 'Home', 'EHT', 'Fashion', etc."
+						mandatory="false" FK="false" />
+					<attribute name="Name" datatype="VARCHAR2" size="40"
+						comment="The name of the BusinessUnit" mandatory="false" FK="false" />
+				</supertype>
+				<supertype name="Location" mandatory="false" cardinality=""
+					parentkey="">
+					<attribute name="LocationID" datatype="INTEGER" size="0"
+						comment="A unique system assigned identifier for the Location."
+						mandatory="true" FK="false" />
+					<attribute name="Size" datatype="INTEGER" size="0"
+						comment="The floor area of the Location expressed in an appropriate UnitOfMeasure (UOM).&#xA;&#xA;For 'InventoryLocation' this would specify the area or volume set asside for storing merchandise, expressed in the appropriate UOM.&#xA;&#xA;For 'SellingLocation' this would specify the floor area set aside for Selling activities expressed in the appropriate UOM."
+						mandatory="true" FK="false" />
+					<attribute name="LocationName" datatype="VARCHAR2" size="40"
+						comment="The common name  for the Location." mandatory="false" FK="false" />
+					<attribute name="LocationDescription" datatype="VARCHAR2"
+						size="8" comment="A description for the Location" mandatory="false"
+						FK="false" />
+					<attribute name="LocationTypeCode" datatype="VARCHAR2"
+						size="8"
+						comment="A code that uniquely identifies a Location Type&#xA;&#xA;This would include destination locations like: Customer, DC, CDH, etc."
+						mandatory="false" FK="false" />
+					<attribute name="StartDate" datatype="DATE" size="8"
+						comment="Start effective date for the location" mandatory="false"
+						FK="false" />
+					<attribute name="EndDate" datatype="DATE" size="8"
+						comment="End effective date for the location" mandatory="false"
+						FK="false" />
+					<attribute name="CreationTimestamp" datatype="TIMESTAMP"
+						size="4" comment="Creation date and time for the location"
+						mandatory="false" FK="false" />
+					<attribute name="LastUpdateTimestamp" datatype="TIMESTAMP"
+						size="4" comment="last update date and time" mandatory="false" FK="false" />
+					<attribute name="DisabledAccessAdvisory" datatype="VARCHAR2"
+						size="max"
+						comment="The disabled access advisory / guidance statement for the Location should anyone needing access be disabled.&#xA;&#xA;Current JL advisories used for a 'collection plus collection point' are: 'Poor', 'Good', 'Reasonable'."
+						mandatory="false" FK="false" />
+					<supertype name="BusinessUnit" mandatory="true"
+						cardinality="*" parentkey="ResponsibleBusinessUnitID">
+						<attribute name="BusinessUnitID" datatype="VARCHAR2"
+							size="32"
+							comment="A unique retailer assigned identifier for an RetailStore, DistributionCenter or AdministrationCenter"
+							mandatory="true" FK="false" />
+						<attribute name="TypeCode" datatype="VARCHAR2" size="2"
+							comment="A unique retailer assigned code denoting the applicable sub-type of BusinessUnit.&#xA;&#xA;A unique retailer assigned identifier for an RetailStore, DistributionCenter or AdministrationCenter, or organisational (departmental/directorate) cut of the above e.g. 'Home', 'EHT', 'Fashion', etc."
+							mandatory="false" FK="false" />
+						<attribute name="Name" datatype="VARCHAR2" size="40"
+							comment="The name of the BusinessUnit" mandatory="false" FK="false" />
+					</supertype>
+					<supertype name="Location" mandatory="true" cardinality="*"
+						parentkey="">
+						<attribute name="LocationID" datatype="INTEGER" size="0"
+							comment="A unique system assigned identifier for the Location."
+							mandatory="true" FK="false" />
+						<attribute name="Size" datatype="INTEGER" size="0"
+							comment="The floor area of the Location expressed in an appropriate UnitOfMeasure (UOM).&#xA;&#xA;For 'InventoryLocation' this would specify the area or volume set asside for storing merchandise, expressed in the appropriate UOM.&#xA;&#xA;For 'SellingLocation' this would specify the floor area set aside for Selling activities expressed in the appropriate UOM."
+							mandatory="true" FK="false" />
+						<attribute name="LocationName" datatype="VARCHAR2" size="40"
+							comment="The common name  for the Location." mandatory="false"
+							FK="false" />
+						<attribute name="LocationDescription" datatype="VARCHAR2"
+							size="8" comment="A description for the Location" mandatory="false"
+							FK="false" />
+						<attribute name="LocationTypeCode" datatype="VARCHAR2"
+							size="8"
+							comment="A code that uniquely identifies a Location Type&#xA;&#xA;This would include destination locations like: Customer, DC, CDH, etc."
+							mandatory="false" FK="false" />
+						<attribute name="StartDate" datatype="DATE" size="8"
+							comment="Start effective date for the location" mandatory="false"
+							FK="false" />
+						<attribute name="EndDate" datatype="DATE" size="8"
+							comment="End effective date for the location" mandatory="false"
+							FK="false" />
+						<attribute name="CreationTimestamp" datatype="TIMESTAMP"
+							size="4" comment="Creation date and time for the location"
+							mandatory="false" FK="false" />
+						<attribute name="LastUpdateTimestamp" datatype="TIMESTAMP"
+							size="4" comment="last update date and time" mandatory="false"
+							FK="false" />
+						<attribute name="DisabledAccessAdvisory" datatype="VARCHAR2"
+							size="max"
+							comment="The disabled access advisory / guidance statement for the Location should anyone needing access be disabled.&#xA;&#xA;Current JL advisories used for a 'collection plus collection point' are: 'Poor', 'Good', 'Reasonable'."
+							mandatory="false" FK="false" />
+					</supertype>
+				</supertype>
+			</entity>
+		</entity>
+	</entity>
+	<entity name="UnitOfMeasure" mandatory="true" cardinality="*"
+		parentkey="TimeUinitOfMeasureCode">
+		<attribute name="UnitOfMeasureCode" datatype="VARCHAR2"
+			size="20"
+			comment="The code used to specify the units in which a value is being expressed, or manner in which a measurement has been taken. This code relates to the UCC data element 355."
+			mandatory="true" FK="false" />
+		<attribute name="UnitOfMeasureTypeCode" datatype="VARCHAR2"
+			size="20"
+			comment="Indicates what this unit of measure entity type instance measures.  Examples include weight or mass, length, cube (length x width x depth), volume, discrete items (each), etc."
+			mandatory="false" FK="false" />
+		<attribute name="EnglishMetricFlag" datatype="CHAR" size="1"
+			comment="Indicates whether this unit of measure is part of the English (i.e. 'Imperial') or Metric system of measurements.&#xA;&#xA;0 - English (i.e. 'Imperial', the default)&#xA;1 - Metric"
+			mandatory="false" FK="false" />
+		<attribute name="Name" datatype="VARCHAR2" size="40"
+			comment="Name assigned to this unit of measure." mandatory="false"
+			FK="false" />
+		<attribute name="Description" datatype="CLOB" size="4"
+			comment="Description assigned to this unit of measure." mandatory="false"
+			FK="false" />
+	</entity>
+</entity>
