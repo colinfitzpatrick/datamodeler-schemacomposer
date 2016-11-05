@@ -40,7 +40,7 @@
 	</xsl:template>
   
   <!-- Match all entities, shouldn't match root - - - - - - - - - - - - - - - - - - -->
-  <xsl:template match="entity">
+  <xsl:template match="entity|supertype">
 	<xsl:param name="indentLevel" select="1"/>
 	<xsl:variable name="indent" select="substring($spaces, 1, $indentLevel)"/>
 	<xsl:variable name="indent2" select="substring($spaces, 1, $indentLevel+1)"/>
@@ -136,66 +136,12 @@
     <xsl:choose>
       <xsl:when test="$datatype = 'INTEGER'"><xsl:text>number</xsl:text></xsl:when>
       <xsl:when test="$datatype = 'NUMBER'"><xsl:text>number</xsl:text></xsl:when>
-      <xsl:otherwise><xsl:text>string</xsl:text></xsl:otherwise>
+      <xsl:otherwise>string</xsl:otherwise>
     </xsl:choose>
   
   </xsl:template>
   
-  
-  <xsl:template match="supertype" mode="parent_attributes">
-
-    <xsl:comment>here</xsl:comment>
-    <xsl:comment><xsl:value-of select="@name"/></xsl:comment>
-
-    <xsl:if test="parent::supertype">
-      <xsl:apply-templates select="parent::node()" mode="parent_attributes"/>
-    </xsl:if>
-
-    <xsl:apply-templates select="attribute"/>
-
-  </xsl:template>
   
  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-  <xsl:template match="supertype">
-
-    <xsl:choose>
-    
-      <xsl:when test="parent::supertype">
-        <xsl:apply-templates select="entity"/>
-        <xsl:apply-templates select="supertype"/>
-      </xsl:when>
-      
-      
-      <!--  TODO, when a supertype has no subchoices ... add it's attributes -->
-      
-      <xsl:otherwise>
-        <xs:choice>
-        
-          <xsl:attribute name="minOccurs">
-            <xsl:choose>
-              <xsl:when test="@mandatory = 'true'">1</xsl:when>
-              <xsl:otherwise>0</xsl:otherwise>
-            </xsl:choose>
-          </xsl:attribute>
-          
-          <xsl:attribute name="maxOccurs">
-            <xsl:choose>
-              <xsl:when test="@cardinality ='*'">unbounded</xsl:when>
-              <xsl:when test="@cardinality =''">unbounded</xsl:when>
-              <xsl:otherwise>
-                <xsl:value-of select="@cardinality"/>
-              </xsl:otherwise>
-            </xsl:choose>
-          </xsl:attribute>
-          
-          <xsl:apply-templates select="entity"/>
-          <xsl:apply-templates select="supertype"/>
-          
-        </xs:choice>
-      </xsl:otherwise>
-    </xsl:choose>
-    
-  </xsl:template>
   
 </xsl:stylesheet>
