@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Schema Composer for Oracle Data Modeler</title>
-  <meta name="description" content="Oracle is a registered trademark of Oracle Corporation and/or its affiliates. All other company and product names are trademarks or registered trademarks of ...">
+  <title>Welcome to Schema Composer for Oracle™ SQL*Developer Data Modeler</title>
+  <meta name="description" content="Welcome to my Pre-Release of Schema Composer.">
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="/">
+  <link rel="canonical" href="/release/2016/11/05/welcome-to-schema-composer.html">
   <link rel="alternate" type="application/rss+xml" title="Schema Composer for Oracle Data Modeler" href="/feed.xml">
   
   
@@ -62,28 +62,63 @@
 
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Welcome to Schema Composer for Oracle™ SQL*Developer Data Modeler</h1>
+    <p class="post-meta"><time datetime="2016-11-05T16:52:06+00:00" itemprop="datePublished">Nov 5, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Welcome to my Pre-Release of Schema Composer.</p>
+
+<p>Schema Composer allows you to convert the Logical Enterprise Data Models you have developed in Data Modeler to a hierarchical form.  At the moment the current formats are:</p>
+<ul>
+  <li>XSD</li>
+  <li>JSON Schema</li>
+</ul>
+
+<p>but I intend to add more over time, as well as different variations of these.</p>
+
+<p>This initial release is really a proof of concept release, and shouldn’t be used for any production or critial systems.  It also has a number of known issues, including:</p>
+<ul>
+  <li>It doesn’t support non-exclusive sub-types.</li>
+  <li>XSD’s uses <code class="highlighter-rouge">&lt;xs:choice&gt;</code> with no option to use base types.</li>
+  <li>JSON Schema’s don’t enforce sub-types correctly.</li>
+  <li>List of Values/Range is not supported.</li>
+  <li>Only Attribute comments are supported.</li>
+  <li>Mandatory Entities not working for JSON Schema.</li>
+  <li>The UI really needs a lot of work - and doesn’t enforce rules which could lead to invalid output.</li>
+  <li>Only English is supported.</li>
+</ul>
+
+<p>Also, it’s only been tested on with Data Modeler 4.1.5 with Java 8; basically, expect some issues.</p>
+
+<p>If this hasn’t scared you off and you want to try it out:</p>
+
+<ul>
+  <li>If you haven’t already, download Data Modeler here : <a href="http://www.oracle.com/technetwork/developer-tools/datamodeler/overview/index.html">http://www.oracle.com/technetwork/developer-tools/datamodeler/overview/index.html</a></li>
+  <li>Start Data Modeler, Select Help &gt; “Check for Updates” and Click “Add” and use the following settings:
+    <ul>
+      <li>Name: Schema Composer</li>
+      <li>URL : http:/dfdf/</li>
+    </ul>
+  </li>
+</ul>
+
+<p>You can also watch this video which should get you started quickly:</p>
+
+<h4 id="background">Background</h4>
+
+<p>I was moving my Data Models from ERWin to Data Modeler and I needed to export some subviews into a very particular Excel format; a format that I couldn’t re-create with the built in Reports in Data Modeler. So, I wrote a little extension to suit my needs, https://github.com/colinfitzpatrick/datamodeler-excel-exporter.</p>
+
+<p>Some time later, I needed an XSD from the data model, so I extended the original idea … Scheama Composer.</p>
+
+
+  </div>
+
   
-  
-
-
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Nov 5, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/release/2016/11/05/welcome-to-schema-composer.html">Welcome to Schema Composer for Oracle™ SQL*Developer Data Modeler</a>
-        </h2>
-      </li>
-    
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
-
-</div>
+</article>
 
       </div>
     </main>
