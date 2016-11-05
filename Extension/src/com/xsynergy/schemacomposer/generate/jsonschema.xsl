@@ -5,6 +5,8 @@
   <xsl:output method="text" encoding="UTF-8"/>
   <xsl:param name="ignore-resolvers" select="'true'"/>
    
+   <xsl:variable name="spaces" select="'                                                                 '"/>
+   
   <!-- Main - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   <xsl:template match="/">    
     <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -13,22 +15,39 @@
   </xsl:template>
 
   <!-- Match the root entity, which can't have cardinality - - - - - - - - - - - - - -->
-  <xsl:template match="/entity">{
-	"$schema": "http://json-schema.org/draft-04/schema#",
-    "type": "array",
-    "items":
-    {
-    	"type": "object",
-        "properties":
-        {
-       		<xsl:apply-templates select="*"/>
-    	}
-    }
-}</xsl:template>
+  <xsl:template match="/entity">
+ 		<xsl:param name="indentLevel" select="1"/>
+  		<xsl:variable name="indent" select="substring($spaces, 1, $indentLevel)"/>
+  		<xsl:variable name="indent2" select="substring($spaces, 1, $indentLevel+1)"/>
+
+  		<xsl:text>{&#xA;</xsl:text>
+		<xsl:value-of select="$indent"/> <xsl:text>"$schema": "http://json-schema.org/draft-04/schema#",&#xA;</xsl:text>
+		<xsl:value-of select="$indent"/> <xsl:text>"type": "array",&#xA;</xsl:text>
+  		<xsl:value-of select="$indent"/> <xsl:text>"items":&#xA;</xsl:text>
+  		<xsl:value-of select="$indent"/> <xsl:text>{&#xA;</xsl:text>
+  		<xsl:value-of select="$indent2"/> <xsl:text>"type": "object",&#xA;</xsl:text>
+  		<xsl:value-of select="$indent2"/> <xsl:text>"properties":&#xA;</xsl:text>
+  		<xsl:value-of select="$indent2"/> <xsl:text>{&#xA;</xsl:text>
+  		
+   		<xsl:apply-templates select="*">
+   			<xsl:with-param name="indentLevel" select="$indentLevel + 2"></xsl:with-param>
+   		</xsl:apply-templates>
+
+  		<xsl:value-of select="$indent2"/> <xsl:text>},&#xA;</xsl:text>       	
+       	<xsl:value-of select="$indent2"/> <xsl:text>"additionalProperties": false&#xA;</xsl:text>
+  		<xsl:value-of select="$indent"/> <xsl:text>}&#xA;</xsl:text>
+		<xsl:text>}&#xA;</xsl:text>
+	</xsl:template>
   
   <!-- Match all entities, shouldn't match root - - - - - - - - - - - - - - - - - - -->
   <xsl:template match="entity">
-	
+	<xsl:param name="indentLevel" select="1"/>
+	<xsl:variable name="indent" select="substring($spaces, 1, $indentLevel)"/>
+	<xsl:variable name="indent2" select="substring($spaces, 1, $indentLevel+1)"/>
+	<xsl:variable name="indent3" select="substring($spaces, 1, $indentLevel+2)"/>
+	<xsl:variable name="indent4" select="substring($spaces, 1, $indentLevel+3)"/>
+
+  
   	<xsl:variable name="entityName" select="@name"/>
   	<xsl:variable name="objectName">
 	    <xsl:choose>
@@ -48,49 +67,61 @@
 	    	</xsl:otherwise>
 	   	</xsl:choose>
  	</xsl:variable>
-  	
-	"<xsl:value-of select="$objectName"/>":
-	{
-		"type": "array",
-		"description": "<xsl:value-of select="normalize-space(@comment)"/>",
-		"items":
-		{
-			"type": "object",
-			"properties":
-			{
-	      		<xsl:apply-templates select="*"/>,
-	      		<xsl:choose>
-					<xsl:when test="count(attribute[@mandatory='true']/@name) &gt; 0">
-					"additionalProperties": false,
-					"required":
-					[
-						<xsl:for-each select="attribute[@mandatory='true']/@name">
-						   <xsl:text>"</xsl:text><xsl:value-of select="."/><xsl:text>"</xsl:text>
-						   <xsl:if test="position() != last()">
-						      <xsl:text>, </xsl:text>
-						   </xsl:if>
-						</xsl:for-each>
-					]		
-					</xsl:when>
-					<xsl:otherwise>
-						"additionalProperties": false
-					</xsl:otherwise>
-				</xsl:choose>
-			}
-		}
-	}<xsl:if test="position() != last()">,</xsl:if>
+  
+  	<xsl:value-of select="$indent"/> <xsl:text>"</xsl:text> <xsl:value-of select="$objectName"/> <xsl:text>":&#xA;</xsl:text>
+  	<xsl:value-of select="$indent"/> <xsl:text>{&#xA;</xsl:text>
+	<xsl:value-of select="$indent2"/> <xsl:text>"type": "array",&#xA;</xsl:text>
+	<xsl:value-of select="$indent2"/> <xsl:text>"description": "</xsl:text> <xsl:value-of select="normalize-space(@comment)"/>  <xsl:text>",&#xA;</xsl:text>
+	<xsl:value-of select="$indent2"/> <xsl:text>"items":&#xA;</xsl:text>
+	<xsl:value-of select="$indent2"/>  <xsl:text>{&#xA;</xsl:text>
+	<xsl:value-of select="$indent3"/>  <xsl:text>"type": "object",&#xA;</xsl:text>
+	<xsl:value-of select="$indent3"/>  <xsl:text>"properties":&#xA;</xsl:text>
+	<xsl:value-of select="$indent3"/>  <xsl:text>{&#xA;</xsl:text>
 
+	<xsl:apply-templates select="*">
+		<xsl:with-param name="indentLevel" select="$indentLevel + 3"></xsl:with-param>
+	</xsl:apply-templates>
 	
+	<xsl:value-of select="$indent3"/>  <xsl:text>},&#xA;</xsl:text>
+	
+	<xsl:choose>
+		<xsl:when test="count(attribute[@mandatory='true']/@name) &gt; 0">
+			<xsl:value-of select="$indent2"/> <xsl:text>"additionalProperties": false,&#xA;</xsl:text>
+			<xsl:value-of select="$indent2"/> <xsl:text>"required":</xsl:text>
+			<xsl:text>[</xsl:text>
+				<xsl:for-each select="attribute[@mandatory='true']/@name">
+				   <xsl:text>"</xsl:text><xsl:value-of select="."/><xsl:text>"</xsl:text>
+				   <xsl:if test="position() != last()">
+				      <xsl:text>, </xsl:text>
+				   </xsl:if>
+				</xsl:for-each>
+			<xsl:text>]&#xA;</xsl:text>
+		</xsl:when>
+	
+		<xsl:otherwise>
+			<xsl:value-of select="$indent2"/> <xsl:text>"additionalProperties": false&#xA;</xsl:text>
+		</xsl:otherwise>
+	
+	</xsl:choose>
+	
+
+	<xsl:value-of select="$indent2"/>  <xsl:text>}&#xA;</xsl:text>
+	<xsl:value-of select="$indent"/>  <xsl:text>}</xsl:text><xsl:if test="position() != last()"><xsl:text>,</xsl:text></xsl:if><xsl:text>&#xA;</xsl:text>
+		
   </xsl:template>
   
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   <xsl:template match="attribute"> 
+	<xsl:param name="indentLevel" select="1"/>
+	<xsl:variable name="indent" select="substring($spaces, 1, $indentLevel)"/>
+	<xsl:variable name="indent2" select="substring($spaces, 1, $indentLevel+1)"/>
 
-	"<xsl:value-of select="@name"/>":
-	{
-		"type": "<xsl:apply-templates select="@datatype"/>",
-		"description": "<xsl:value-of select="normalize-space(@comment)"/>"
-	}<xsl:if test="position() != last()">,</xsl:if>
+	<xsl:value-of select="$indent"/>  <xsl:text>"</xsl:text><xsl:value-of select="@name"/> <xsl:text>":&#xA;</xsl:text>
+	<xsl:value-of select="$indent"/>  <xsl:text>{&#xA;</xsl:text>
+	<xsl:value-of select="$indent2"/>  <xsl:text>"type": "</xsl:text><xsl:apply-templates select="@datatype"/><xsl:text>",&#xA;</xsl:text>
+	<xsl:value-of select="$indent2"/>  <xsl:text>"description": "</xsl:text><xsl:value-of select="normalize-space(@comment)"/><xsl:text>"&#xA;</xsl:text>
+	<xsl:value-of select="$indent"/>  <xsl:text>}</xsl:text><xsl:if test="position() != last()"><xsl:text>,</xsl:text></xsl:if><xsl:text>&#xA;</xsl:text>
+
  </xsl:template>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
