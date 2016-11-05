@@ -118,7 +118,11 @@
 
 	<xsl:value-of select="$indent"/>  <xsl:text>"</xsl:text><xsl:value-of select="@name"/> <xsl:text>":&#xA;</xsl:text>
 	<xsl:value-of select="$indent"/>  <xsl:text>{&#xA;</xsl:text>
-	<xsl:value-of select="$indent2"/>  <xsl:text>"type": "</xsl:text><xsl:apply-templates select="@datatype"/><xsl:text>",&#xA;</xsl:text>
+	<xsl:value-of select="$indent2"/>  <xsl:text>"type": "</xsl:text>
+		<xsl:call-template name="datatype">
+			<xsl:with-param name="datatype"><xsl:value-of select="@datatype"/></xsl:with-param>
+		</xsl:call-template>
+	<xsl:text>",&#xA;</xsl:text>
 	<xsl:value-of select="$indent2"/>  <xsl:text>"description": "</xsl:text><xsl:value-of select="normalize-space(@comment)"/><xsl:text>"&#xA;</xsl:text>
 	<xsl:value-of select="$indent"/>  <xsl:text>}</xsl:text><xsl:if test="position() != last()"><xsl:text>,</xsl:text></xsl:if><xsl:text>&#xA;</xsl:text>
 
@@ -126,19 +130,14 @@
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   
-  <xsl:template match="@datatype">
-
-	<xsl:text>string</xsl:text>  
-<!--   	<xsl:variable name="datatype"><xsl:value-of select="@datatype"/></xsl:variable>
-  	<xsl:text><xsl:value-of select="$datatype"/></xsl:text>
-  
-  	<xsl:text>
-	    <xsl:choose>
-	      <xsl:when test="$datatype = 'INTEGER'">number</xsl:when>
-	      <xsl:when test="$datatype = 'NUMBER'">number</xsl:when>
-	      <xsl:otherwise>string</xsl:otherwise>
-	    </xsl:choose>
-	</xsl:text> -->
+  <xsl:template name="datatype">
+  	<xsl:param name="datatype"></xsl:param>
+    
+    <xsl:choose>
+      <xsl:when test="$datatype = 'INTEGER'"><xsl:text>number</xsl:text></xsl:when>
+      <xsl:when test="$datatype = 'NUMBER'"><xsl:text>number</xsl:text></xsl:when>
+      <xsl:otherwise><xsl:text>string</xsl:text></xsl:otherwise>
+    </xsl:choose>
   
   </xsl:template>
   
