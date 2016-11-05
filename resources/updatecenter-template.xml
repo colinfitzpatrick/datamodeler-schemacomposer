@@ -13,9 +13,9 @@ Oracle is a registered trademark of Oracle Corporation and/or its affiliates. Ot
     <u:post-startup-hook></u:post-startup-hook>
     <u:requirements>
       <u:requires-extension id="oracle.sqldeveloper" minVersion="12.1.2.0.40" maxVersion="12.9.0.0.40"/>
-      <u:requires-agreement 
+      <!-- <u:requires-agreement 
           url="http://schemacomposer.xsynergy.com/license/"/>
-    </u:requirements>
+      </u:requirements> -->
     <u:bundle-url>http://schemacomposer.xsynergy.com/downloads/SchemaComposer.@SCHEMA_COMPOSER_BUILDNUMBER@.zip</u:bundle-url>
     <u:category>xsynergy</u:category>
   </u:update>
