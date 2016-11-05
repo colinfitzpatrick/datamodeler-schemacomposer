@@ -131,10 +131,10 @@
     <!-- Copy the build file -->
     <copy file="${dist}/${RELEASE_FILE}" tofile="${website}/downloads/${RELEASE_FILE}" />
 
-	<!--  Build the website -->
+	<!--  Build the website 
 	<exec executable="jekyll">
       <arg value="build"/>
-      <arg value="--source website/"/>
+      <arg value="-!!!-source website/"/>
     </exec>-->
 
   </target>
