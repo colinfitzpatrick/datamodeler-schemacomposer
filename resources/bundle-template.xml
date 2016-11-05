@@ -4,7 +4,7 @@
     <u:name>Hierarchical Schema Composer</u:name>
     <u:version>@VERSION@</u:version>
     <u:author>Colin Fitzpatrick</u:author>
-    <u:author-url>https://github.com/colinfitzpatrick/datamodeler-schemacomposer-release/wiki</u:author-url>
+    <u:author-url>http://schemacomposer.xsynergy.com/</u:author-url>
     <u:requirements>
       <u:requires-extension id="oracle.sqldeveloper" minVersion="12.1.2.0.40" maxVersion="12.9.0.0.40"/>
     </u:requirements>
