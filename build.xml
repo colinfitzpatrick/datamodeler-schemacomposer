@@ -126,7 +126,7 @@
   <target name="publish" depends="zip" description="Create and build the website for publication">
 
     <!-- Copy the update center file -->
-    <copy file="${dist}/updatecenter.xml" tofile="${website}/updatecenter.xml"/>
+    <copy file="${dist}/updatecenter.xml" tofile="${website}/downloads/updatecenter.xml"/>
 
     <!-- Copy the build file -->
     <copy file="${dist}/${RELEASE_FILE}" tofile="${website}/downloads/${RELEASE_FILE}" />
@@ -142,7 +142,11 @@
   <target name="clean" description="clean up">
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
-    <delete dir="${updatecenter}"/>
+
+	<delete includeemptydirs="true">
+    	<fileset dir="${website}/downloads" includes="**/*"/>
+  	</delete>
+      
   </target>
   
 </project>
