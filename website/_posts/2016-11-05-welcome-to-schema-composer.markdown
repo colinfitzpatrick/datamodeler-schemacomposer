@@ -30,14 +30,14 @@ If this hasn't scared you off and you want to try it out:
 - If you haven't already, download Data Modeler here : <http://www.oracle.com/technetwork/developer-tools/datamodeler/overview/index.html>
 - Start Data Modeler, Select Help &gt; "Check for Updates" and Click "Add" and use the following settings:
 	- Name: Schema Composer
-	- URL : http:/dfdf/
+	- URL : http://schemacomposer.xsynergy.com/downloads/updatecenter.xml
 
 
 You can also watch this video which should get you started quickly:
 
 #### Background
 
-I was moving my Data Models from ERWin to Data Modeler and I needed to export some subviews into a very particular Excel format; a format that I couldn't re-create with the built in Reports in Data Modeler. So, I wrote a little extension to suit my needs, https://github.com/colinfitzpatrick/datamodeler-excel-exporter.
+I was moving my Data Models from ERWin to Data Modeler and I needed to export some subviews into a very particular Excel format; a format that I couldn't re-create with the built in Reports in Data Modeler. So, I wrote a little extension to suit my needs, <https://github.com/colinfitzpatrick/datamodeler-excel-exporter>.
 
-Some time later, I needed an XSD from the data model, so I extended the original idea ... Scheama Composer.  
+Some time later, I needed an XSD from the data model, so I extended the original idea ... Schema Composer.  
 
