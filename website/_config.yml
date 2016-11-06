@@ -35,5 +35,4 @@ exclude:
   - Gemfile.lock
 include:
   - CNAME
-  - updatecenter.xml
-  - download/
+  - downloads/
