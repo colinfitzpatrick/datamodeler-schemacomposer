@@ -45,7 +45,7 @@ public class EntityNode
   @Override
   public String getName()
   {
-    return entity.getName();
+    return entity.getName();    
   }
 
   @Override
@@ -164,12 +164,21 @@ public class EntityNode
   {
     return rolename;
   }
+  
+  /**
+   * Get the comments for this Entity.
+   * @return The entities comments.
+   */
+  public String getComment()
+  {
+      return entity.getComment().replace("\n", " ").replace("\r", " ");
+  }
 
   protected Entity getEntity()
   {
     return entity;
   }
-
+  
   @Override
   public SchemaNode.Type getType()
   {

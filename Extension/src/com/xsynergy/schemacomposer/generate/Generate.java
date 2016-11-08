@@ -135,10 +135,6 @@ public class Generate
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
       
       DOMSource xmlsource = new DOMSource(doc);
-      
-//      URL url = this.getClass().getResource("/com/xsynergy/schemacomposer/generate/basic.xsl");
-//
-//      Util.log(Util.LogLevel.DEBUG, Util.getText(url));
 
       Transformer xsltransformer = transformerFactory.newTransformer(new StreamSource(xsd.openStream()) );
        
@@ -231,6 +227,10 @@ public class Generate
           attrParentFK.setValue(entity.getParentForeignKeyNameAsString());
           entityElement.setAttributeNode(attrParentFK); 
 
+          Attr attrComment = doc.createAttribute(Generate.kCOMMENT);
+          attrComment.setValue(entity.getComment());
+          entityElement.setAttributeNode(attrComment);           
+          
           root.appendChild(entityElement);
           
           createModel(node, entityElement);
