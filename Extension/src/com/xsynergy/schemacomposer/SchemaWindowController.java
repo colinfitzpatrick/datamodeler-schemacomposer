@@ -1,6 +1,8 @@
 package com.xsynergy.schemacomposer;
 
-import javax.swing.JOptionPane;
+import com.xsynergy.schemacomposer.SchemaWindowFactory;
+
+//import javax.swing.JOptionPane;
 
 import oracle.dbtools.crest.fcp.DMDiagramNode;
 import oracle.dbtools.crest.model.design.Design;

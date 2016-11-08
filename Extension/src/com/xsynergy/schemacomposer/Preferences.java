@@ -23,7 +23,9 @@ public final class Preferences
   }
   
   private static final String NAMESPACE_NAME = "NAMESPACE";   
-  private static final String DEFAULT_NAMESPACE_NAME = "http://soa.johnlewispartnership.com/schema/ebo/carrierlabel/v1"; 
+  
+  							// 2016107 Fix #22
+  private static final String DEFAULT_NAMESPACE_NAME = "http://schemacomposer.xsynergy.com/v1"; 
 
   public String getNamespace()
   {

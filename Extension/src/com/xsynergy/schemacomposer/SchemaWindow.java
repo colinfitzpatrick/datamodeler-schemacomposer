@@ -31,6 +31,7 @@ public final class SchemaWindow
 
   @Override
   public Component getGUI() {
+            
       if (ui == null) {
           ui = new Panel(subviewName);
       }
