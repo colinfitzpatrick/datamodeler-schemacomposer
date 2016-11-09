@@ -35,4 +35,5 @@ exclude:
   - Gemfile.lock
 include:
   - CNAME
+  - license.html
   - downloads/
