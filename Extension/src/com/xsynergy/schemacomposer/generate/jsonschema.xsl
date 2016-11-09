@@ -85,11 +85,14 @@
 	<xsl:value-of select="$indent3"/>  <xsl:text>},&#xA;</xsl:text>
 	
 	<xsl:choose>
-		<xsl:when test="count(attribute[@mandatory='true']/@name) &gt; 0">
+		<xsl:when test="count(attribute[@mandatory='true']/@name) &gt; 0 or count(entity[@mandatory='true']/@name) &gt; 0">
+		
+			<!--  The entity has mandatory fields or entities  -->
+		
 			<xsl:value-of select="$indent2"/> <xsl:text>"additionalProperties": false,&#xA;</xsl:text>
 			<xsl:value-of select="$indent2"/> <xsl:text>"required":</xsl:text>
 			<xsl:text>[</xsl:text>
-				<xsl:for-each select="attribute[@mandatory='true']/@name">
+				<xsl:for-each select="attribute[@mandatory='true']/@name | entity[@mandatory='true']/@name">
 				   <xsl:text>"</xsl:text><xsl:value-of select="."/><xsl:text>"</xsl:text>
 				   <xsl:if test="position() != last()">
 				      <xsl:text>, </xsl:text>
