@@ -13,3 +13,7 @@ This release contains:
 - #13 Displays the current license.
 - #1 Basic support of SuperTypes in JSON Schema.
 
+Update:
+
+Version 0.2.1 - Fixes an issues creating output file on Windows 10.
+

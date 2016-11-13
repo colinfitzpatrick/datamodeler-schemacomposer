@@ -8,13 +8,11 @@ import com.xsynergy.schemacomposer.model.SchemaAttribute;
 
 import com.xsynergy.schemacomposer.model.SchemaNode;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-
+import java.io.FileOutputStream;
 import java.net.URL;
 
-import java.util.Base64;
 
 import javax.swing.JFileChooser;
 
@@ -60,9 +58,6 @@ public class Generate
   private static final String kFK ="FK";
 
   private static final String kPARAM_IGNORE_RESOLVERS = "ignore-resolvers";
-
-  private static final String kXSDEXTENSION = ".xsd";
-
 
   public Generate(oracle.ide.controls.tree.CustomJTree tree)
   {
@@ -121,36 +116,54 @@ public class Generate
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
       
         int returnVal = fc.showOpenDialog(null);
+        
+        Util.log(LogLevel.TRACE, "File chooser returned:" + returnVal);
+        
         if (returnVal == JFileChooser.APPROVE_OPTION)
         {
+            
           File file = fc.getSelectedFile();
           outputFile = file.getAbsolutePath();
+          Util.log(LogLevel.DEBUG, "User selected directory[" + outputFile + "]");
         }
         else
         {
-          return;
+            Util.log(LogLevel.TRACE, "User cancelled file selection");
+
+            return;
         }
       }      
       
-      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      String filename = outputFile + Util.FS + subViewName + extension;
+      Util.log(LogLevel.TRACE, "Filename will be:["+ filename + "]");
       
+      Util.log(LogLevel.TRACE, "About to create TransformerFactory ...");
+      
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+      Util.log(LogLevel.TRACE, "About to create DOMSource ...");
+
       DOMSource xmlsource = new DOMSource(doc);
 
+      Util.log(LogLevel.TRACE, "About to create Transformer ...");
+      
       Transformer xsltransformer = transformerFactory.newTransformer(new StreamSource(xsd.openStream()) );
-       
+
+      Util.log(LogLevel.TRACE, "Setting XSLT Params ...");
+      
       xsltransformer.setParameter(Generate.kPARAM_IGNORE_RESOLVERS, ignoreResolvers==true?"true":"false");
       
-      String filename = outputFile + Util.FS + subViewName + extension;
+      Util.log(LogLevel.TRACE, "Running XSLT ...");
       
-      StreamResult resultxslt = new StreamResult(new File(filename));
+      StreamResult resultxslt = new StreamResult(new FileOutputStream(filename));
       xsltransformer.transform(xmlsource, resultxslt);     
       
-      Util.log(Util.LogLevel.INFO, "XSD written to " + filename);
+      Util.log(Util.LogLevel.INFO, "File written to " + filename);
       
     }
     catch (Exception e)
     {
-      Util.log(Util.LogLevel.ERROR,  e.toString());
+      Util.log(Util.LogLevel.ERROR, "Error creating file", e);
     }
     
   }

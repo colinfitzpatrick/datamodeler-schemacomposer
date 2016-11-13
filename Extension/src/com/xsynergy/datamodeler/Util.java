@@ -54,7 +54,8 @@ public final class Util {
   
   public enum LogLevel
   {
-    OFF(0,""),
+    OFF(100,""),
+    TRACE(1, "TRACE"),
     DEBUG(10,"DEBUG"),
     INFO(20, "INFO"),
     ERROR(30, "ERROR"),
@@ -97,21 +98,20 @@ public final class Util {
   
   public static final void log(LogLevel level, String message, Exception e)
   {
-      if(Util.curentLevel.getLevel() >= level.getLevel())
+      if(Util.curentLevel.getLevel() <= level.getLevel())
       {
         LogManager.getIdeLogWindow().log("[Schema Generator][" +level.getDescription() + "] " + 
           message + Util.NL + (e!=null?e.toString()+Util.NL:""));   
       }
   }
 
-  private static LogLevel curentLevel = LogLevel.DEBUG;
+  private static LogLevel curentLevel = LogLevel.TRACE;
   
   public static final void setLogLevel(LogLevel level)
   {
     Util.curentLevel = level;
   }
   
-  @SuppressWarnings("oracle.jdeveloper.java.nested-assignment")
   public static String getText(URL url) throws Exception {
       URLConnection connection = url.openConnection();
       BufferedReader in = new BufferedReader(
