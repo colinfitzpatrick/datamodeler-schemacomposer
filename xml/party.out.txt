@@ -1,0 +1,245 @@
+{
+ "$schema": "http://json-schema.org/draft-04/schema#",
+ "type": "array",
+ "items":
+ {
+    "type": "object",
+    "properties":
+    {
+       "PartyRoleAssignmentID":
+       {
+          "type": "string",
+          "description": "Token identifier for a PartyRoleAssignmentInstance"
+       },
+       "EffectiveDate":
+       {
+          "type": "string",
+          "description": "The date that this role is valid from."
+       },
+       "ExpirationDate":
+       {
+          "type": "string",
+          "description": "The date that this role is no longer valid."
+       },
+       "StatusCode":
+       {
+          "type": "string",
+          "description": "A retailer assigned code denoting the current status of the PartyRoleAssignment."
+       },
+       "OperationalPartyID":
+       {
+          "type": "number",
+          "description": "Unique identifier for the operational party in case there is one"
+       },
+       "Party":
+       {
+          "type": "array",
+          "description": "An individual or firm that exchanges information and/or goods and services with the store.",
+          "items":
+          {
+             "type": "object",
+             "properties":
+             {
+                   "PartyID":
+                   {
+                      "type": "number",
+                      "description": "A unique, system assigned identity for a Party."
+                   },
+                   "Person":
+                   {
+                      "type": "array",
+                      "description": "A individual of interest to the retail store or retail enterprise.",
+                      "items":
+                      {
+                         "type": "object",
+                         "properties":
+                         {
+                               "PersonPartyID":
+                               {
+                                  "type": "number",
+                                  "description": "A unique, system assigned identity for a Party."
+                               },
+                               "Salutation":
+                               {
+                                  "type": "string",
+                                  "description": "Extra words that don't form part of the person's name but are normally printed before the FirstName as a courtesy title. For instance, Mr. Ms., Miss, Dr., Prof. etc. This represents the primary salutation for this Person."
+                               },
+                               "FirstName":
+                               {
+                                  "type": "string",
+                                  "description": "A person's first name. In western cultures, this is the given name, in other cultures it may be the family name. This represents a person's most current first name."
+                               },
+                               "FirstNameType":
+                               {
+                                  "type": "string",
+                                  "description": "A code denoting what kind of name the FirstName is, possible values include: GivenName, OtherGivenName, FamilyName, Patronymic"
+                               },
+                               "MiddleNames":
+                               {
+                                  "type": "string",
+                                  "description": "One or more middle names, that are printed between the person's first and last names. This represents a person's most current first name."
+                               },
+                               "MiddleNameType":
+                               {
+                                  "type": "string",
+                                  "description": "A code denoting what kind of name the MiddleName is, possible values include: GivenName, OtherGivenName, FamilyName, Patronymic"
+                               },
+                               "LastName":
+                               {
+                                  "type": "string",
+                                  "description": "A person's last name. In western cultures, this is the family (or patronymic) name, in other cultures it may be the given name. This represents a person's most current first name."
+                               },
+                               "LastNameType":
+                               {
+                                  "type": "string",
+                                  "description": "A code denoting what kind of name the LastName is, possible values include: GivenName, OtherGivenName, FamilyName, Patronymic"
+                               },
+                               "Suffix":
+                               {
+                                  "type": "string",
+                                  "description": "Extra words that don't form part of the person's name but are normally printed after the LastName to help identify the person. Example values include, Sr, Jr, III This represents a person's primary Suffix."
+                               },
+                               "SortingName":
+                               {
+                                  "type": "string",
+                                  "description": "A culturally sensitive version of the person's name that is used when producing a sorted list of names. Examples: Jones, W S McGrigor, S F Tryggvi, T"
+                               },
+                               "MailingName":
+                               {
+                                  "type": "string",
+                                  "description": "A culturally sensitive version of the person's name that is used when contacting them Examples: Bill Jones, Stuey McGrigor Tryggvi Thordarson"
+                               },
+                               "OfficialName":
+                               {
+                                  "type": "string",
+                                  "description": "A culturally sensitive version of the person's name that is used for all legal documents. Examples: William Stephen Jones Stuart Fergus McGrigor Tryggvi Magnus Thordarson"
+                               },
+                               "GenderTypeCode":
+                               {
+                                  "type": "string",
+                                  "description": "A code for specifying a persons gender."
+                               },
+                               "DateOfBirth":
+                               {
+                                  "type": "string",
+                                  "description": "Year, month, and day a Person was born on."
+                               }
+                         },
+                      "required":["PersonPartyID", "FirstName", "LastName"],
+                      "additionalProperties": false
+                      }
+                   }
+             },
+          "required":["PartyID"],
+          "oneOf":
+             [
+                {"required" : ["Person"]}
+             ],
+          "additionalProperties": false
+          }
+       },
+       "Worker":
+       {
+          "type": "array",
+          "description": "A person who provides services to a retail store. May be either an Employee or a Contractor.",
+          "items":
+          {
+             "type": "object",
+             "properties":
+             {
+                   "WorkerID":
+                   {
+                      "type": "number",
+                      "description": "A unique system-assigned identifier for the Person who is a particular Worker."
+                   },
+                   "WorkerTypeCode":
+                   {
+                      "type": "string",
+                      "description": "A unique retailer assigned code denoting the kind of Worker."
+                   },
+                   "WorkerPhotograph":
+                   {
+                      "type": "string",
+                      "description": "A binary data object containing a current photographic image of the Worker."
+                   },
+                   "SpecialRequirements":
+                   {
+                      "type": "string",
+                      "description": "A narrative describing any special requirements the Worker has when working e.g. Wheelchair access required."
+                   },
+                   "SocialSecurityNumber":
+                   {
+                      "type": "string",
+                      "description": "The Worker's SocialSecurityNumber. Note: In non-North American jurisdictions this may be known by a variety of other names e.g. in the UK - NINO (National Insurance Number)."
+                   },
+                   "Partner":
+                   {
+                      "type": "array",
+                      "description": "An individual that works for a John Lewis and is deemed a 'partner', accepts direction from the retail store management and satisfies the statutory criteria requiring that payroll taxes and benefit contributions be paid by the retailer. NOTE: Changed from ARTS Employee for John Lewis",
+                      "items":
+                      {
+                         "type": "object",
+                         "properties":
+                         {
+                               "PartnerID":
+                               {
+                                  "type": "number",
+                                  "description": "A unique, non-significant number used to identify a store employee."
+                               }
+                         },
+                      "required":["PartnerID"],
+                      "additionalProperties": false
+                      }
+                   },
+                   "Contractor":
+                   {
+                      "type": "array",
+                      "description": "A person who is not an Employee but provides services to the retail enterprise. Services provided are charged to the retail enterprise by a Vendor. Contractors are NOT normally paid via a JL Payroll.",
+                      "items":
+                      {
+                         "type": "object",
+                         "properties":
+                         {
+                               "ContractorID":
+                               {
+                                  "type": "number",
+                                  "description": "An alternate ID assigned to a Contractor."
+                               }
+                         },
+                      "required":["ContractorID"],
+                      "additionalProperties": false
+                      }
+                   }
+             },
+          "required":["WorkerID", "WorkerTypeCode"],
+          "oneOf":
+             [
+                {"required" : ["Partner"]}, 
+                {"required" : ["Contractor"]}
+             ],
+          "additionalProperties": false
+          }
+       },
+       "PartyRole":
+       {
+          "type": "array",
+          "description": "Denotes how the Party is related to the Retail Enterprise in ternms of a ROLE. The list of PartyRoles include: 'CustomerAgent' 'Vendor' etc",
+          "items":
+          {
+             "type": "object",
+             "properties":
+             {
+                   "PartyRoleID":
+                   {
+                      "type": "number",
+                      "description": "A unique, system assigned identity for a PartyRole."
+                   }
+             },
+          "required":["PartyRoleID"],
+          "additionalProperties": false
+          }
+       }
+    },
+    "additionalProperties": false
+ }
+}

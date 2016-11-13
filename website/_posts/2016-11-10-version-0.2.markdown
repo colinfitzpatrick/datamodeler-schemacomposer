@@ -1,0 +1,15 @@
+---
+layout: post
+title:  "Version 0.2"
+categories: release
+---
+
+Releasing for 0.2 for Testing
+
+This release contains:
+- #22 Fixes to the default preferences.
+- #7 Comments included for Entities.
+- #6 Fixes Mandatory Entities for JSON Schema.
+- #13 Displays the current license.
+- #1 Basic support of SuperTypes in JSON Schema.
+

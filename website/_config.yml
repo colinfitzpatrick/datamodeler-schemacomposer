@@ -26,8 +26,6 @@ github_username:  colinfitzpatrick
 markdown: kramdown
 theme: minima
 
-destination: ../docs
-
 gems:
   - jekyll-feed
 exclude:

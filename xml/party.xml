@@ -1,0 +1,112 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<entity name="PartyRoleAssignment">
+	<attribute name="PartyRoleAssignmentID" datatype="CHAR" size="32"
+		comment="Token identifier for a PartyRoleAssignmentInstance"
+		mandatory="true" FK="false" />
+	<attribute name="EffectiveDate" datatype="DATE" size="8"
+		comment="The date that this role is valid from." mandatory="false" FK="false" />
+	<attribute name="ExpirationDate" datatype="DATE" size="8"
+		comment="The date that this role is no longer valid." mandatory="false"
+		FK="false" />
+	<attribute name="StatusCode" datatype="VARCHAR2" size="2"
+		comment="A retailer assigned code denoting the current status of the PartyRoleAssignment."
+		mandatory="false" FK="false" />
+	<attribute name="OperationalPartyID" datatype="INTEGER" size="0"
+		comment="Unique identifier for the operational party in case there is one"
+		mandatory="false" FK="false" />
+	<supertype name="Party" mandatory="true" cardinality="*"
+		parentkey="PartyID"
+		comment="An individual or firm that exchanges information and/or goods and services with the store.">
+		<attribute name="PartyID" datatype="INTEGER" size="0"
+			comment="A unique, system assigned identity for a Party." mandatory="true"
+			FK="false" />
+		<entity name="Person" mandatory="false" cardinality=""
+			parentkey=""
+			comment="A individual of interest to the retail store or retail enterprise.">
+			<attribute name="PersonPartyID" datatype="INTEGER" size="0"
+				comment="A unique, system assigned identity for a Party." mandatory="true"
+				FK="false" />
+			<attribute name="Salutation" datatype="VARCHAR2" size="40"
+				comment="Extra words that don't  form part of the person's name but are normally printed before the FirstName as a courtesy title. For instance, Mr. Ms., Miss, Dr., Prof. etc.&#xA;&#xA;This represents the primary salutation for this Person."
+				mandatory="false" FK="false" />
+			<attribute name="FirstName" datatype="VARCHAR2" size="40"
+				comment="A person's first name. In western cultures, this is the given name, in other cultures it may be the family name.&#xA;&#xA;This represents a person's most current first name."
+				mandatory="true" FK="false" />
+			<attribute name="FirstNameType" datatype="VARCHAR2" size="2"
+				comment="A code denoting what kind of name the FirstName is, possible values include: GivenName, OtherGivenName, FamilyName, Patronymic"
+				mandatory="false" FK="false" />
+			<attribute name="MiddleNames" datatype="VARCHAR2" size="40"
+				comment="One or more middle names, that are printed between the person's first and last names.&#xA;&#xA;This represents a person's most current first name."
+				mandatory="false" FK="false" />
+			<attribute name="MiddleNameType" datatype="VARCHAR2" size="2"
+				comment="A code denoting what kind of name the MiddleName is, possible values include: GivenName, OtherGivenName, FamilyName, Patronymic"
+				mandatory="false" FK="false" />
+			<attribute name="LastName" datatype="VARCHAR2" size="40"
+				comment="A person's last name. In western cultures, this is the family (or patronymic) name, in other cultures it may be the given name.&#xA;&#xA;This represents a person's most current first name."
+				mandatory="true" FK="false" />
+			<attribute name="LastNameType" datatype="VARCHAR2" size="2"
+				comment="A code denoting what kind of name the LastName is, possible values include: GivenName, OtherGivenName, FamilyName, Patronymic"
+				mandatory="false" FK="false" />
+			<attribute name="Suffix" datatype="VARCHAR2" size="40"
+				comment="Extra words that don't  form part of the person's name but are normally printed after the LastName to help identify the person.  Example values include, Sr, Jr, III&#xA;&#xA;This represents a person's primary Suffix."
+				mandatory="false" FK="false" />
+			<attribute name="SortingName" datatype="VARCHAR2" size="40"
+				comment="A culturally sensitive version of the person's name that is used when producing a sorted list of names.  Examples:&#xA;&#xA;Jones, W S&#xA;McGrigor, S F&#xA;Tryggvi, T"
+				mandatory="false" FK="false" />
+			<attribute name="MailingName" datatype="VARCHAR2" size="40"
+				comment="A culturally sensitive version of the person's name that is used when contacting them Examples:&#xA;&#xA;Bill Jones,&#xA;Stuey McGrigor&#xA;Tryggvi Thordarson"
+				mandatory="false" FK="false" />
+			<attribute name="OfficialName" datatype="VARCHAR2" size="40"
+				comment="A culturally sensitive version of the person's name that is used for all legal documents.&#xA;&#xA;Examples:&#xA;&#xA;William Stephen Jones&#xA;Stuart Fergus McGrigor&#xA;Tryggvi Magnus Thordarson"
+				mandatory="false" FK="false" />
+			<attribute name="GenderTypeCode" datatype="VARCHAR2" size="2"
+				comment="A code for specifying a persons gender." mandatory="false"
+				FK="false" />
+			<attribute name="DateOfBirth" datatype="DATE" size="8"
+				comment="Year, month, and day a Person was born on." mandatory="false"
+				FK="false" />
+		</entity>
+	</supertype>
+	<supertype name="Worker" mandatory="true" cardinality="*"
+		parentkey="WorkerID"
+		comment="A person who provides services to a retail store. May be either an Employee or a Contractor.">
+		<attribute name="WorkerID" datatype="INTEGER" size="0"
+			comment="A unique system-assigned identifier for the Person who is a particular Worker."
+			mandatory="true" FK="false" />
+		<attribute name="WorkerTypeCode" datatype="VARCHAR2" size="2"
+			comment="A unique retailer assigned code denoting the kind of Worker."
+			mandatory="true" FK="false" />
+		<attribute name="WorkerPhotograph" datatype="BLOB" size="4"
+			comment="A binary data object containing a current photographic image of the Worker."
+			mandatory="false" FK="false" />
+		<attribute name="SpecialRequirements" datatype="VARCHAR2"
+			size="4000"
+			comment="A narrative describing any special requirements the Worker has when working e.g. Wheelchair access required."
+			mandatory="false" FK="false" />
+		<attribute name="SocialSecurityNumber" datatype="VARCHAR2"
+			size="9"
+			comment="The Worker's SocialSecurityNumber.&#xA;Note: In non-North American jurisdictions this may be known by a variety of other names e.g. in the UK - NINO (National Insurance Number)."
+			mandatory="false" FK="false" />
+		<entity name="Partner" mandatory="false" cardinality=""
+			parentkey=""
+			comment="An individual that works for a John Lewis and is deemed a 'partner', accepts direction from the retail store management and satisfies the statutory criteria  requiring that payroll taxes and benefit contributions be paid by the retailer.  NOTE: Changed from ARTS Employee for John Lewis">
+			<attribute name="PartnerID" datatype="INTEGER" size="0"
+				comment="A unique, non-significant number used to identify a store employee."
+				mandatory="true" FK="false" />
+		</entity>
+		<entity name="Contractor" mandatory="false" cardinality=""
+			parentkey=""
+			comment="A person who is not an Employee but provides services to the retail enterprise. Services provided are charged to the retail enterprise by a Vendor. Contractors are NOT normally paid via a JL Payroll.">
+			<attribute name="ContractorID" datatype="INTEGER" size="0"
+				comment="An alternate ID assigned to a Contractor." mandatory="true"
+				FK="false" />
+		</entity>
+	</supertype>
+	<supertype name="PartyRole" mandatory="true" cardinality="*"
+		parentkey="PartyRoleID"
+		comment="Denotes how the Party is related to the Retail Enterprise in ternms of a ROLE. The list of PartyRoles include: 'CustomerAgent' 'Vendor' etc">
+		<attribute name="PartyRoleID" datatype="INTEGER" size="0"
+			comment="A unique, system assigned identity for a PartyRole."
+			mandatory="true" FK="false" />
+	</supertype>
+</entity>

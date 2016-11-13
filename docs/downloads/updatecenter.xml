@@ -3,20 +3,21 @@
          xmlns:u="http://xmlns.oracle.com/jdeveloper/update">
   <u:update id="com.xsynergy.schemacomposer">
     <u:name>Hierarchical Schema Composer</u:name>
-    <u:version>0.1</u:version>
+    <u:version>0.2</u:version>
     <u:author>Colin Fitzpatrick</u:author>
     <u:author-url>http://schemacomposer.xsynergy.com/</u:author-url>
     <u:description>Oracle™ SQL*Developer Data Modeler extension to allow users to create XSD's and JSON Schema from Logical Data Models.<br/>
 The intent is to allow Enterprise Data Models to be converted to XSDs for Enterprise Web Services.<br/>
 Oracle is a registered trademark of Oracle Corporation and/or its affiliates. Other names may be trademarks of their respective owners. This site is not affiliated with Oracle™ or any of their family of sites or Software.<br/>
-[version 0.1.7866ae4]</u:description>
+Release Notes: http://schemacomposer.xsynergy.com/release/2016/11/10/version-0.2.html<br/>
+[version 0.2.9ef5327]</u:description>
     <u:post-startup-hook></u:post-startup-hook>
     <u:requirements>
       <u:requires-extension id="oracle.sqldeveloper" minVersion="12.1.2.0.40" maxVersion="12.9.0.0.40"/>
-      <!-- <u:requires-agreement 
-          url="http://schemacomposer.xsynergy.com/license/"/>-->
+      <u:requires-agreement 
+          url="http://schemacomposer.xsynergy.com/license.html"/>
       </u:requirements> 
-    <u:bundle-url>http://schemacomposer.xsynergy.com/downloads/SchemaComposer.0.1.7866ae4.zip</u:bundle-url>
+    <u:bundle-url>http://schemacomposer.xsynergy.com/downloads/SchemaComposer.0.2.9ef5327.zip</u:bundle-url>
     <u:category>xsynergy</u:category>
   </u:update>
 </updates>

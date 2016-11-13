@@ -1,0 +1,342 @@
+{
+ "$schema": "http://json-schema.org/draft-04/schema#",
+ "type": "array",
+ "items":
+ {
+  "type": "object",
+  "properties":
+  {
+   "CarrierLabelID":
+   {
+    "type": "number",
+    "description": "A unique system assigned identifier for the Carrier Label"
+   },
+   "CarrierLabel":
+   {
+    "type": "string",
+    "description": "The Carrier supplied label which is affixed to the Parcel"
+   },
+   "TrackingID":
+   {
+    "type": "number",
+    "description": "A tracking number provided by the service provider who actually delivers the shipment."
+   },
+   "TrackingURL":
+   {
+    "type": "string",
+    "description": "A URL to the service provider's website, which allows interested parties to track the shipment."
+   },
+   "CheckReferenceNumber":
+   {
+    "type": "string",
+    "description": "A reference code used by the carrier to verify the customer. This is printed on the label. This is usually the last 4 digits of the customers credit card."
+   },
+   "VisualFileFormatType":
+   {
+    "type": "array",
+    "description": "",
+    "items":
+    {
+     "type": "object",
+     "properties":
+     {
+      "DPI":
+      {
+       "type": "number",
+       "description": "The Dots Per Inch of the Image or PDF attached."
+      },
+      "FileFormatType":
+      {
+       "type": "array",
+       "description": "",
+       "items":
+       {
+        "type": "object",
+        "properties":
+        {
+         "FileFormatTypeCode":
+         {
+          "type": "string",
+          "description": "Identifies a digitial file format. Exmples include: mpeg jpeg QuickTime flashvideo"
+         },
+         "FileFormatName":
+         {
+          "type": "string",
+          "description": "Business name for the FileFormatType"
+         },
+         "FileFormatExtension":
+         {
+          "type": "string",
+          "description": "File extension typically used to designate a file as this type of file format."
+         }
+        },
+       "additionalProperties": false,
+       "required":["FileFormatTypeCode"]
+       }
+      }
+     },
+    "additionalProperties": false
+    }
+   },
+   "Carrier":
+   {
+    "type": "array",
+    "description": "",
+    "items":
+    {
+     "type": "object",
+     "properties":
+     {
+      "VendorID":
+      {
+       "type": "number",
+       "description": "A unique system assigned identifier for the Vendor."
+      },
+      "CarrierShipmentType":
+      {
+       "type": "array",
+       "description": "",
+       "items":
+       {
+        "type": "object",
+        "properties":
+        {
+         "CarrierShipmentTypeID":
+         {
+          "type": "number",
+          "description": "A unique, retailer supplied identifier for the carrier assigned to the Retail Transaction Shipment."
+         },
+         "CarrierShipmentTypeName":
+         {
+          "type": "string",
+          "description": "A unique, carrier supplied identifier for the shipment type."
+         }
+        },
+       "additionalProperties": false,
+       "required":["CarrierShipmentTypeID"]
+       }
+      }
+     },
+    "additionalProperties": false,
+    "required":["VendorID", "CarrierShipmentType"]
+    }
+   },
+   "ParcelForDelivery":
+   {
+    "type": "array",
+    "description": "",
+    "items":
+    {
+     "type": "object",
+     "properties":
+     {
+      "ParcelID":
+      {
+       "type": "string",
+       "description": "A unique system assigned identifier for the Parcel."
+      },
+      "ParcelBarCode":
+      {
+       "type": "string",
+       "description": "This holds the bar code scanned and associated with a parcel when the ordered item/items are placed in a parcel for delivery."
+      },
+      "ParcelStatus":
+      {
+       "type": "string",
+       "description": "This records the status of a parcel."
+      },
+      "ValueForInsurance":
+      {
+       "type": "number",
+       "description": "The declared insurable value of the item(s) in the parcel. This value is used as part of the business rules for carrier selection."
+      },
+      "DropSequenceNumber":
+      {
+       "type": "string",
+       "description": "This is a sequencial (alpha-numeric) number assigned to each of the parcel drops on a given delivery route."
+      },
+      "DeliveryDate":
+      {
+       "type": "string",
+       "description": "The actual delivery date"
+      },
+      "ProofOfDeliveryFlag":
+      {
+       "type": "string",
+       "description": "Set if proof of delivery is required for the parcel."
+      },
+      "Dimensions":
+      {
+       "type": "array",
+       "description": "",
+       "items":
+       {
+        "type": "object",
+        "properties":
+        {
+         "DimensionID":
+         {
+          "type": "number",
+          "description": "A unique identifier for a given set of dimensions on an object."
+         },
+         "Height":
+         {
+          "type": "number",
+          "description": "Defines the height of a object (i.e. parcel/box/pack/etc.) in linear-measure-unit-codes."
+         },
+         "Width":
+         {
+          "type": "number",
+          "description": "Defines the width of a object (i.e. parcel/box/pack/etc.) in linear-measure-unit-codes."
+         },
+         "Depth":
+         {
+          "type": "number",
+          "description": "Defines the depth of a object (i.e. parcel/box/pack/etc.) in linear-measure-unit-codes."
+         },
+         "Length":
+         {
+          "type": "number",
+          "description": "Defines the length of a object (i.e. parcel/box/pack/etc.) in linear-measure-unit-codes."
+         },
+         "Volume":
+         {
+          "type": "number",
+          "description": "Defines the cubic volume of a object (i.e. parcel/box/pack/etc.) in 'VolumeUnitOfMeasure' codes."
+         },
+         "Weight":
+         {
+          "type": "number",
+          "description": "Defines the weight of a object (i.e. parcel/box/pack/etc.) in weight-measure-unit-codes."
+         },
+         "LinearUnitOfMeasureCode":
+         {
+          "type": "array",
+          "description": "",
+          "items":
+          {
+           "type": "object",
+           "properties":
+           {
+            "UnitOfMeasureCode":
+            {
+             "type": "string",
+             "description": "The code used to specify the units in which a value is being expressed, or manner in which a measurement has been taken. This code relates to the UCC data element 355."
+            },
+            "UnitOfMeasureTypeCode":
+            {
+             "type": "string",
+             "description": "Indicates what this unit of measure entity type instance measures. Examples include weight or mass, length, cube (length x width x depth), volume, discrete items (each), etc."
+            },
+            "EnglishMetricFlag":
+            {
+             "type": "string",
+             "description": "Indicates whether this unit of measure is part of the English (i.e. 'Imperial') or Metric system of measurements. 0 - English (i.e. 'Imperial', the default) 1 - Metric"
+            },
+            "Name":
+            {
+             "type": "string",
+             "description": "Name assigned to this unit of measure."
+            },
+            "Description":
+            {
+             "type": "string",
+             "description": "Description assigned to this unit of measure."
+            }
+           },
+          "additionalProperties": false,
+          "required":["UnitOfMeasureCode"]
+          }
+         },
+         "VolumeUnitOfMeasureCode":
+         {
+          "type": "array",
+          "description": "",
+          "items":
+          {
+           "type": "object",
+           "properties":
+           {
+            "UnitOfMeasureCode":
+            {
+             "type": "string",
+             "description": "The code used to specify the units in which a value is being expressed, or manner in which a measurement has been taken. This code relates to the UCC data element 355."
+            },
+            "UnitOfMeasureTypeCode":
+            {
+             "type": "string",
+             "description": "Indicates what this unit of measure entity type instance measures. Examples include weight or mass, length, cube (length x width x depth), volume, discrete items (each), etc."
+            },
+            "EnglishMetricFlag":
+            {
+             "type": "string",
+             "description": "Indicates whether this unit of measure is part of the English (i.e. 'Imperial') or Metric system of measurements. 0 - English (i.e. 'Imperial', the default) 1 - Metric"
+            },
+            "Name":
+            {
+             "type": "string",
+             "description": "Name assigned to this unit of measure."
+            },
+            "Description":
+            {
+             "type": "string",
+             "description": "Description assigned to this unit of measure."
+            }
+           },
+          "additionalProperties": false,
+          "required":["UnitOfMeasureCode"]
+          }
+         },
+         "WeightUnitOfMeasureCode":
+         {
+          "type": "array",
+          "description": "",
+          "items":
+          {
+           "type": "object",
+           "properties":
+           {
+            "UnitOfMeasureCode":
+            {
+             "type": "string",
+             "description": "The code used to specify the units in which a value is being expressed, or manner in which a measurement has been taken. This code relates to the UCC data element 355."
+            },
+            "UnitOfMeasureTypeCode":
+            {
+             "type": "string",
+             "description": "Indicates what this unit of measure entity type instance measures. Examples include weight or mass, length, cube (length x width x depth), volume, discrete items (each), etc."
+            },
+            "EnglishMetricFlag":
+            {
+             "type": "string",
+             "description": "Indicates whether this unit of measure is part of the English (i.e. 'Imperial') or Metric system of measurements. 0 - English (i.e. 'Imperial', the default) 1 - Metric"
+            },
+            "Name":
+            {
+             "type": "string",
+             "description": "Name assigned to this unit of measure."
+            },
+            "Description":
+            {
+             "type": "string",
+             "description": "Description assigned to this unit of measure."
+            }
+           },
+          "additionalProperties": false,
+          "required":["UnitOfMeasureCode"]
+          }
+         }
+        },
+       "additionalProperties": false,
+       "required":["DimensionID", "Height", "UnitOfMeasure", "UnitOfMeasure", "UnitOfMeasure"]
+       }
+      }
+     },
+    "additionalProperties": false,
+    "required":["ParcelID", "Dimensions"]
+    }
+   }
+  },
+  "additionalProperties": false
+ }
+}
