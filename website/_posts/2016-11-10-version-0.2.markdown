@@ -15,5 +15,5 @@ This release contains:
 
 Update:
 
-Version 0.2.1 - Fixes an issues creating output file on Windows 10.
+Version 0.2.2 - Fixes an issues creating output file on Windows 10.
 
