@@ -17,6 +17,6 @@ Oracle is a registered trademark of Oracle Corporation and/or its affiliates. Ot
           url="http://schemacomposer.xsynergy.com/license.html"/>
       </u:requirements> 
     <u:bundle-url>http://schemacomposer.xsynergy.com/downloads/SchemaComposer.@SCHEMA_COMPOSER_BUILDNUMBER@.zip</u:bundle-url>
-    <u:category>xsynergy</u:category>
+    <u:category>Database</u:category>
   </u:update>
 </updates>
