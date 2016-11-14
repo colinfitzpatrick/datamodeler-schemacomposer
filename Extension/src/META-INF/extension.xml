@@ -1,4 +1,4 @@
-<extension id="com.xsynergy.schemacomposer" version="0.2.1" esdk-version="2.0"
+<extension id="com.xsynergy.schemacomposer" version="0.2.2" esdk-version="2.0"
            rsbundle-class="com.xsynergy.schemacomposer.Res" xmlns="http://jcp.org/jsr/198/extension-manifest">
   <name>${EXTENSION_NAME}</name>
   <owner>${EXTENSION_OWNER}</owner>
