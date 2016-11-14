@@ -105,8 +105,10 @@
     <copy file="${resources}/bundle-template.xml" tofile="${dist}/META-INF/bundle.xml"/>
     
     <!-- Ensure the Bundle Version, Matches the extension.xml file -->
-    <replace file="${dist}/META-INF/bundle.xml" token="@SCHEMA_COMPOSER_BUILDNUMBER@" value="${version}" />
+    <replace file="${dist}/META-INF/bundle.xml" token="@VERSION@" value="${version}" />
+    <replace file="${dist}/META-INF/bundle.xml" token="@SCHEMA_COMPOSER_BUILDNUMBER@" value="${RELEASE_VERSION}" />
     
+ 
     <!-- Crete the zip file -->
     <zip destfile="${dist}/${RELEASE_FILE}" basedir="${dist}"/>
 
