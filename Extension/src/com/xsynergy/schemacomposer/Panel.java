@@ -386,7 +386,7 @@ public class Panel
       
     if(getOutputType().getSelectedItem().toString() == "JSON Schema")
     {
-	url =  this.getClass().getResource("/com/xsynergy/schemacomposer/generate/basic.xsl"); 
+	url =  this.getClass().getResource("/com/xsynergy/schemacomposer/generate/jsonschema.xsl"); 
 	extension = ".json";
     }
       
@@ -463,26 +463,26 @@ public class Panel
     }
     catch (ParserConfigurationException e)
     {
-        Util.log(Util.LogLevel.DEBUG, "Error Parsing saved property", e);
+        Util.log(Util.LogLevel.ERROR, "Error Parsing saved property", e);
         return;
     }
     catch (IOException e)
     {
-      Util.log(Util.LogLevel.DEBUG, "Error Parsing saved property", e);
+      Util.log(Util.LogLevel.ERROR, "Error Parsing saved property", e);
       return;
     }
     catch (SAXException e)
     {
-      Util.log(Util.LogLevel.DEBUG, "Error Parsing saved property", e);
+      Util.log(Util.LogLevel.ERROR, "Error Parsing saved property", e);
       return;
     }
 
     Node xmlNode = doc.getFirstChild();
     
 
-    Util.log(Util.LogLevel.DEBUG, "Root entity name " + xmlNode.getNodeName());
-    Util.log(Util.LogLevel.DEBUG, "Number of attributes" + xmlNode.getAttributes().getLength());
-    Util.log(Util.LogLevel.DEBUG, "Schema Root Name" + xmlNode.getAttributes().getNamedItem("name"));
+    Util.log(Util.LogLevel.TRACE, "Root entity name " + xmlNode.getNodeName());
+    Util.log(Util.LogLevel.TRACE, "Number of attributes" + xmlNode.getAttributes().getLength());
+    Util.log(Util.LogLevel.TRACE, "Schema Root Name" + xmlNode.getAttributes().getNamedItem("name"));
 
     String rootEntity = xmlNode.getAttributes().getNamedItem("name").getNodeValue();
     
